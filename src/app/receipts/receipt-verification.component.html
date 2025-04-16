@@ -1,0 +1,304 @@
+@if(isLoading){
+  <div class="container d-flex justify-content-center align-items-center primary" style="height: 100vh;">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+}
+@else{
+<div class="container-fluid">
+  <div class="row">
+    <div class=" text-center py-2 mt-4">
+      <h3 class="  text-success">Receipt Approval</h3>
+    </div>
+
+    <div class="col-12 col-lg-6">
+      <div class="p-5">
+        <div class="col-lg-6 col-12">
+          <div class="form-group">
+
+          </div>
+          <div class="mt-1">
+
+            @if(isImageLoad){
+            <div>
+              <img [src]="imageBase64" class="img-fluid" alt="Image Preview" />
+            </div>
+            }
+            @else {
+            <div class="pdf-preview" class="mt-2">
+              <embed [src]="imageBase64" type="application/pdf" width="100%" height="400px" />
+            </div>
+            }
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-6 mt-5">
+      <form [formGroup]="receiptFormGroup">
+        <div class="row">
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="vendorName" class="form-label">Vendor Name</label>
+            <input type="text" class="form-control" formControlName="vendorName" id="vendorName" placeholder="">
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="vendorPhone" class="form-label">Vendor Phone</label>
+            <input type="text" class="form-control" formControlName="vendorPhone"
+                   id="vendorPhone" placeholder="">
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <label for="vendorAddress" class="form-label">Vendor Address</label>
+            <input type="text" formControlName="vendorAddress"
+                   class="form-control" id="vendorAddress" placeholder="">
+          </div>
+
+          <div class="col-12 col-lg-6 mb-3">
+            <label for="vendorEmail" class="form-label">Vendor Email</label>
+            <input type="email" class="form-control" formControlName="vendorEmail"
+                   id="vendorEmail" placeholder="">
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="customerName" class="form-label">Customer Name</label>
+            <input type="text" class="form-control" formControlName="customerName"
+                   id="customerName" placeholder="">
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="customerPhone" class="form-label">Customer Phone</label>
+            <input type="email" class="form-control" formControlName="customerPhoneNumber"
+                   id="customerPhone" placeholder="">
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <label for="customerAddress" class="form-label">Customer Address</label>
+            <input type="email" class="form-control" formControlName="customerAddress" id="customerAddress" placeholder="">
+          </div>
+
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="invoiceNumber" class="form-label">Invoice Number</label>
+            <input type="email" class="form-control" formControlName="invoiceNumber"
+                   id="invoiceNumber" placeholder="">
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="invoiceDate" class="form-label">Invoice Date</label>
+            <input type="text" formControlName="invoiceDate"
+                   class="form-control" id="invoiceDate" placeholder="">
+
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="subTotal" class="form-label">Subtotal</label>
+            <input type="text" formControlName="subTotal" class="form-control" id="subTotal" placeholder="">
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="taxAmount" class="form-label">Tax Amount</label>
+            <input type="text" formControlName="taxAmount"
+                   class="form-control" id="taxAmount" placeholder="">
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="total" class="form-label">Total</label>
+            <input type="text" class="form-control" formControlName="total"
+                   id="total" placeholder="">
+          </div>
+
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-4 col-lg-4 mb-3">
+          <button (click)="backToDashBoard()" class="btn btn-danger" style="width: 100%;">Back</button>
+        </div>
+        <div class="col-4 col-lg-4 mb-3">
+          <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="adjustItemInfo()" class="btn btn-outline-primary" style="width: 100%;">Adjust Item</button>
+        </div>
+        <div class="col-4 col-lg-4 mb-3">
+          @if(isSaveLoader){
+          <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          }
+          @else {
+          <button (click)="openApprovalConfirmation()" class="btn btn-success" style="width: 100%;">Approve</button>
+          <!-- [disabled]="!isSaveButtonEnable" -->
+          }
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+    </div>
+
+
+
+
+    <div class="container my-4">
+      <table class="table table-striped table-bordered table-hover shadow-lg">
+        <thead class="table-primary">
+          <tr>
+            <th class="text-center">Description</th>
+            <th class="text-center">Expense</th>
+            <th class="text-center">UOM</th>
+            <th class="text-center">Qty</th>
+            <th class="text-center">Unit</th>
+            <!-- <th class="text-center">Discount</th> -->
+            <th class="text-center">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of receiptVerificationMaster.receiptVerificationItems; track $index) {
+          <tr>
+            <td><input type="text" [(ngModel)]="item.itemDescription" class="form-control" /></td>
+            <td>
+              <select class="form-select" aria-label="Default Select Category" [(ngModel)]="item.subCategoryId">
+                <option selected>Select Sub Category</option>
+                @for (item of expenseCategoriesDTO; track $index) {
+                  @for (itemSub of item.expenseSubCategoriesDTOs; track $index) {
+                    <option value="{{itemSub.subCategoryId}}">{{itemSub.subCategoryName}}</option>
+                  }
+                }
+              </select>
+            </td>
+            <td>
+              <select class="form-select" aria-label="Default Unit Of Measure" [(ngModel)]="item.unitOfMeasureId">
+               
+               
+                @for (itemSub of unitOfMeasuresDTO; track $index) {
+                <option value="{{itemSub.unitOfMeasureId}}">{{itemSub.name}}</option>
+                }
+                
+              </select>
+            </td>
+            <td><input type="text" [(ngModel)]="item.quantity" class="form-control" /></td>
+            <td><input type="text" [(ngModel)]="item.unitPrice" class="form-control" /></td>
+            <!-- <td><input type="text" [(ngModel)]="item.discount" class="form-control" /></td>  -->
+            <td><input type="text" [(ngModel)]="item.total" class="form-control" /></td>
+          </tr>
+      }
+        </tbody>
+      </table>
+    </div>
+
+
+
+    
+  }
+
+  @if(currentItem){
+  <form #itemForm="ngForm">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <h5 class="modal-title" id="exampleModalLabel">Adjust Item</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-4">
+              <label for="itemDescription" class="form-label" >Item Description</label>
+              <input type="text" name="itemDescription" [(ngModel)] = "currentItem.itemDescription" 
+                    class="form-control" id="itemDescription" placeholder="Enter item description" required #itemDescription="ngModel"
+                    [ngClass]="{'is-invalid': itemDescription.touched && itemDescription.invalid, 'is-valid': itemDescription.touched && itemDescription.valid}">
+            </div>
+            <div class="mb-4">
+              <label for="unitPrice" class="form-label" >Unit Price ($)</label>
+              <input type="number" #unitPrice = "ngModel" (keyup) ="updateItemTotal(this.currentIndex)" name="unitPrice"  [(ngModel)] = "currentItem.unitPrice" 
+              class="form-control" id="unitPrice" placeholder="Enter unit price" required
+              [ngClass]="{'is-invalid': unitPrice.touched && unitPrice.invalid, 'is-valid': unitPrice.touched && unitPrice.valid}"
+              >
+            </div>
+            <div class="mb-4">
+              <label for="quantity" class="form-label">Quantity</label>
+              <input (keyup) ="updateItemTotal(this.currentIndex)" type="number" name="quantity"  
+              class="form-control" id="quantity" placeholder="Enter quantity" required [(ngModel)] = "currentItem.quantity"
+              #quantity = "ngModel" required
+              [ngClass]="{'is-invalid': quantity.touched && quantity.invalid, 'is-valid': quantity.touched && quantity.valid}"
+              >
+            </div>
+            <!-- <div class="mb-4">
+              <label for="discount" class="form-label">Discount (%)</label>
+              <input type="number" (ngModelChange)="updateItemTotal(this.currentIndex)" class="form-control" id="discount" value="0" placeholder="Enter discount (optional)">
+            </div> -->
+            <div class="mb-4">
+              <label for="expense" class="form-label">Expense</label>
+              <select name="subCategoryId" class="form-select" aria-label="Default Select Category"
+            [(ngModel)]="currentItem.subCategoryId" #subCategory="ngModel" required
+            [ngClass]="{'is-invalid': subCategory.touched && subCategory.invalid, 'is-valid': subCategory.touched && subCategory.valid}">
+              
+                @for (item of expenseCategoriesDTO; track $index) {
+                  @for (itemSub of item.expenseSubCategoriesDTOs; track $index) {
+                    <option value="{{itemSub.subCategoryId}}">{{itemSub.subCategoryName}}</option>
+                  }
+                }
+              </select>
+            </div>
+            <div class="mb-4">
+              <label for="unitOfMeasureId" class="form-label">Unit Of Measure</label>
+              <!-- <select name="subCategoryId" class="form-select" aria-label="Default Select Category"
+                      [(ngModel)]="currentItem.subCategoryId" #subCategory="ngModel" required
+                      [ngClass]="{'is-invalid': subCategory.touched && subCategory.invalid, 'is-valid': subCategory.touched && subCategory.valid}">
+  
+                @for (item of expenseCategoriesDTO; track $index) {
+                @for (itemSub of item.expenseSubCategoriesDTOs; track $index) {
+                <option value="{{itemSub.subCategoryId}}">{{itemSub.subCategoryName}}</option>
+                }
+                }
+              </select> -->
+  
+              <select name="unitOfMeasureId" required class="form-select" aria-label="Default Unit Of Measure" 
+              [(ngModel)]="currentItem.unitOfMeasureId" #subCategory="ngModel" required>
+             
+             
+                @for (itemSub of unitOfMeasuresDTO; track $index) {
+                <option value="{{itemSub.unitOfMeasureId}}">{{itemSub.name}}</option>
+                }
+                
+              </select>
+  
+  
+            </div>
+            <div class="mb-4">
+              <label for="total" class="form-label">Total ($)</label>
+              <input type="number"  name= "total" class="form-control" id="total" placeholder="Calculated total" 
+                      [(ngModel)] = "currentItem.total">
+            </div>
+            <div class="d-flex justify-content-between">
+              <!-- <button type="button"  class="btn btn-outline-secondary" data-bs-dismiss="modal">Remove</button> -->
+              <button type="button"  class="btn btn-outline-secondary" (click)="removeItem()">Remove</button>
+              <button type="button" class="btn btn-outline-info" (click)="previousItem()" [disabled]="currentIndex === 0">Previous</button>
+              <button [disabled]="!itemForm.valid" type="submit" class="btn btn-primary" (click)="nextItem()">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+}
+
+  <div class="modal fade" #myModal tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <!-- Added 'modal-dialog-centered' -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Save Your Changes?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          You’re about to save your changes. Would you like to proceed?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click) ="saveReceipt()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+  
+  
+  
+  
+  

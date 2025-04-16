@@ -1,0 +1,40 @@
+.container {
+    max-width: 800px;
+}
+.card {
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+  }
+
+  .bg-light-danger {
+    background-color: #f8d7da; /* Bootstrap's alert-danger background */
+  }
+  
+  .text-danger {
+    color: #dc3545 !important; /* Bootstrap's danger color */
+  }
+
+  .inactive-row {
+  background-color: #f8d7da; /* Light red background */
+  color: #842029;            /* Optional: text color */
+}
+  

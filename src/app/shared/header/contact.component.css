@@ -1,0 +1,27 @@
+.container {
+    max-width: 900px;
+  }
+  
+  h2 {
+    font-weight: bold;
+  }
+  
+  .form-control {
+    border-radius: 0.375rem;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      padding: 20px;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    h2 {
+      font-size: 1.5rem;
+    }
+    .form-control {
+      font-size: 0.9rem;
+    }
+  }
+  

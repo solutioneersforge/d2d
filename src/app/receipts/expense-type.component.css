@@ -1,0 +1,58 @@
+
+  
+  .card {
+    border-radius: 10px;
+
+  }
+
+  
+  .list-group {
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+  }
+  
+  .dropdown-list {
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+    background: white;
+  }
+  
+  .table {
+    border-radius: 10px;
+  }
+  
+  /* Adjusting spacing */
+  .mt-5 {
+    margin-top: 6rem !important;
+  }
+  
+  .pt-4 {
+    padding-top: 3rem !important;
+  }
+  
+  /* Better table responsiveness */
+  .table-responsive {
+    overflow-x: auto;
+  }
+
+  /* Highlight Column */
+.highlight-column {
+  background-color: #4a8aca; /* Light gray */
+  font-weight: bold;
+  color: white;
+  font-size: large;
+}
+
+/* Hover effect for drill-down links */
+.highlight-column a:hover {
+  text-decoration: underline;
+  color: #0056b3;
+  cursor: pointer;
+}
+
+table td {
+  word-wrap: break-word;
+  white-space: normal;
+}
+
+  

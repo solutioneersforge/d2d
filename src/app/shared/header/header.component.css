@@ -1,0 +1,73 @@
+.navbar-nav a {
+    font-size: 16px;
+    padding: 12px 20px;
+    font-weight: 600;
+    color: white !important;
+    margin-right: 3px;
+    margin-left: 3px;
+  }
+
+  .navbar-nav a:hover {
+    background-color: #0056b3;
+    border-radius: 4px;
+    transition: 0.3s ease;
+    
+  }
+
+  .navbar-brand {
+    font-size: 24px;
+    font-weight: 700;
+    color: white !important;
+  }
+
+  /* Hover effect for active link */
+  .navbar-nav .active {
+    color: #f8f9fa !important;
+    background-color: #0056b3 !important;
+    border-radius: 4px;
+  }
+
+  /* Add padding to the navbar */
+  .navbar {
+    padding: 10px 20px;
+  }
+
+  /* Increase spacing for mobile devices */
+  @media (max-width: 768px) {
+    .navbar-nav {
+      text-align: center;
+    }
+  }
+
+  .navbar {
+    background: linear-gradient(to right, #007bff, #6c757d);
+    
+  }
+
+
+  .user-item {
+    background-color:rgba(0, 0, 0, 0.2); /* Blue for User */
+    border-radius: 5px;
+    margin-right: 10px;
+    border: 2px solid white
+    
+  }
+  .font-color{
+    color:  whitesmoke !important;
+  }
+  
+  .company-item {
+    background-color: #BFA181; /* Gold */
+    color: #738394; /* Dark Royal Blue */
+    border-radius: 5px;
+    border: 2px solid white
+  }
+
+  .company-font-color{
+    color:  #002349 !important;
+  }
+  
+  .nav-item a {
+    padding: 10px 15px;
+    display: block;
+  }

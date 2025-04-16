@@ -1,0 +1,19 @@
+.approval-card {
+    border: 2px solid #4CAF50; /* Green border for approval */
+    border-radius: 10px;
+    background-color: #f0f9f4; /* Light green background */
+  }
+  .card-header {
+    background-color: #4CAF50; /* Green header */
+    color: white;
+  }
+  .card-body {
+    color: #333; /* Dark text for readability */
+  }
+  .btn-approve {
+    background-color: #4CAF50;
+    color: white;
+  }
+  .btn-approve:hover {
+    background-color: #45a049;
+  }

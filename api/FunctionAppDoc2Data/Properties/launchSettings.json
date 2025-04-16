@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FunctionAppDoc2Data": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7275",
+      "launchBrowser": false
+    }
+  },
+  
+}

@@ -1,0 +1,61 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 90vh">
+    <div class="card shadow-lg p-4 rounded-3" style="max-width: 500px; width: 100%;">
+      <h2 class="text-center mb-1">Login</h2>
+  
+      <form #form="ngForm" (ngSubmit)="onSubmit()" autocomplete="off" novalidate>
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="Enter email"
+            [(ngModel)]="email"
+            name="email"
+            #emailModel="ngModel"
+            required
+            email
+            [class.is-invalid]="emailModel.invalid && emailModel.touched"
+          />
+          <div class="invalid-feedback">Please enter a valid email.</div>
+        </div>
+      
+        <!-- Password -->
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            [(ngModel)]="password"
+            name="password"
+            #passwordModel="ngModel"
+            required
+            minlength="6"
+            [class.is-invalid]="passwordModel.invalid && passwordModel.touched"
+          />
+          <div class="invalid-feedback">Password must be at least 6 characters long.</div>
+        </div>
+      
+        <!-- Submit Button & Forgot Password Link -->
+        <div class="d-flex justify-content-between align-items-center">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid">
+            @if(isLoading){
+              <span  class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            }
+            @else {
+              <span>Login</span>
+            }
+            
+          </button>
+          <a routerLink="/forgetpassword" class="text-decoration-none">Forgot password?</a>
+        </div>
+      </form>
+      
+  
+      <div class="mt-3 text-center">
+        <p>Don't have an account? <a  routerLink="/registertype">Sign Up</a></p>
+      </div>
+    </div>
+  </div>

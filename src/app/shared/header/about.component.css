@@ -1,0 +1,14 @@
+/* Custom styles for About Us page */
+img {
+    max-height: 300px;
+    object-fit: cover;
+  }
+  
+  h2 {
+    color: #007bff;
+  }
+  
+  h3 {
+    color: #6c757d;
+  }
+  

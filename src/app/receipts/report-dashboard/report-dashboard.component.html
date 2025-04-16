@@ -1,0 +1,161 @@
+<div class="container mt-5">
+  <!-- Row for the heading -->
+  <div class="row text-center mb-4">
+    <!-- <div class="col-12">
+      <h1 class="display-5 mt-3">Dashboard Report</h1>
+    </div> -->
+  </div>
+
+  <div class="row">
+    <div class="container">
+      <div class="container text-center py-4">
+        <div class="row g-3">
+          <div class="col-12 col-md-4">
+            <div class="card shadow-sm p-3">
+              <p class="text-muted">TOTAL SPENDING</p>
+              <h1 class="fw-bold">
+                {{ totalSpendingTillToday | currency: 'TTD ' }}
+              </h1>
+              <p class="text-center">
+                for the year of {{ currentDate | date: 'dd MMMM yyyy' }}
+              </p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="card shadow-sm p-3">
+              <p class="text-muted">
+                {{ 'Average Monthly Spending' | uppercase }}
+              </p>
+              <h1 class="fw-bold">
+                {{ avgMonthlySpending | currency: 'TTD ' }}
+              </h1>
+              <p class="text-center">for the year of {{ currentYear }}</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="card shadow-sm p-3">
+              <p class="text-muted">
+                {{ 'Average Daily Spending' | uppercase }}
+              </p>
+              <h1 class="fw-bold">{{ avgDailySpending | currency: 'TTD ' }}</h1>
+              <p class="text-center">
+                for the month {{ currentDate | date: 'MMMM' }}
+                {{ currentDate | date: 'yyyy' }}
+              </p>
+            </div>
+          </div>
+
+          <div class="row g-2 align-items-end mb-5">
+             <!-- Month Dropdown -->
+      <div class="col-12 col-md-4">
+        <label for="monthSelect" class="form-label">Select Month</label>
+        <select
+          id="monthSelect"
+          class="form-select"
+          [(ngModel)]="selectedMonth"
+          name="selectedMonth"
+          required
+          #monthControl="ngModel"
+          [ngClass]="{ 'is-invalid': monthControl.invalid && monthControl.touched }"
+        >
+          <option value="" disabled selected>Select Month</option>
+          <option *ngFor="let month of months" [value]="month.value">
+            {{ month.name }}
+          </option>
+        </select>
+        <div class="invalid-feedback">
+          Please select a valid month.
+        </div>
+      </div>
+
+      <!-- Year Dropdown -->
+      <div class="col-12 col-md-4">
+        <label for="yearSelect" class="form-label">Select Year</label>
+        <select
+          id="yearSelect"
+          class="form-select"
+          [(ngModel)]="selectedYear"
+          name="selectedYear"
+          required
+          #yearControl="ngModel"
+          [ngClass]="{ 'is-invalid': yearControl.invalid && yearControl.touched }"
+        >
+          <option value="" disabled selected>Select Year</option>
+          @for (year of years; track $index) {
+          <option  [value]="year">
+            {{ year }}
+          </option>
+        }
+        </select>
+        <div class="invalid-feedback">
+          Please select a valid year.
+        </div>
+      </div>
+
+      <!-- Search Button -->
+      <div class="col-12 col-md-4 d-flex align-items-end">
+        <button
+          type="submit"
+          class="btn btn-primary w-100"
+        (click)="getExpenseSubCategoriesDTO()"
+        >
+          Search
+        </button>
+      </div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-primary">
+              <tr>
+                <th>#</th>
+                <th>Merchant Name</th>
+                <th>Merchant Address</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (merchant of merchantDashboardDTO; track $index) {
+              <tr>
+                <td>{{ merchant.sequence }}</td>
+                <td>{{ merchant.merchantName }}</td>
+                <td>{{ merchant.merchantAddress || 'N/A' }}</td>
+                <td>{{ merchant.totalAmount | currency }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="container mt-4">
+        <h2>Expense Merchant Dashboard</h2>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped">
+            <thead class="table-primary">
+              <tr>
+                <th>#</th>
+                <th>Account</th>
+                <th>Sub Account</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (expense of expenseSubCategoriesDTO; track $index) {
+              <tr>
+                <td>{{ expense.sequence }}</td>
+                <td>{{ expense.expenseType }}</td>
+                <td>{{ expense.subExpenseType }}</td>
+                <td>{{ expense.totalAmount | currency }}</td>
+              </tr>
+              }
+              <!-- <tr *ngFor="let expense of data.expenseMerchantDashboardDTOs">
+           
+          </tr> -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

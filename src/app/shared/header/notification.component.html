@@ -1,0 +1,7 @@
+@if (showNotification) {
+   <div class="alert alert-success alert-dismissible fade show position-fixed bottom-0 end-0 m-3" role="alert">
+    {{ notificationMessage }}
+    <button type="button" class="btn-close" (click)="showNotification = false" aria-label="Close"></button>
+  </div> 
+}
+
