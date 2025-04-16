@@ -1,0 +1,9 @@
+{
+    "appService.zipIgnorePattern": [
+        "node_modules{,/**}",
+        ".vscode{,/**}"
+    ],
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/2931ff26-81e8-4b6c-998d-c71f3ade4ff5/resourceGroups/doc2data_group/providers/Microsoft.Web/sites/doc2data",
+    "appService.deploySubpath": "dist\\doc2data"
+}

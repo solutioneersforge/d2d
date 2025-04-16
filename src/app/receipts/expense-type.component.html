@@ -1,0 +1,119 @@
+@if(isLoading){
+    <div class="container d-flex justify-content-center align-items-center primary"
+    style="height: 100vh">
+ <div class="spinner-border text-primary" role="status">
+   <span class="visually-hidden">Loading...</span>
+ </div>
+</div>
+}
+@else {
+    <div class="container-fluid">
+        <div class="row  p-4">
+          <div class="col-md-6 mt-md-5">
+            <div class="card p-4 shadow">
+              <span class="badge bg-primary mb-3"><h4 class="text-center mb-1">{{headerMessage}}</h4></span>
+                <form [formGroup]="formExpenseGroup" autocomplete="off">
+                    @if(isNewExpense){
+                        <div class="mb-3">
+                            <label for="expenseType" class="form-label">Account Type</label>
+                            <input type="text" formControlName="expenseType" required
+                                        [ngClass]="{'is-invalid': f.expenseType.touched && f.expenseType.invalid, 
+                   'is-valid': f.expenseType.touched && f.expenseType.valid}"
+       class="form-control" id="expenseType" placeholder="Enter Account Type"
+       data-bs-toggle="tooltip" data-bs-placement="top"
+        [attr.title]="f.expenseType.invalid ? getErrorMessage(f.expenseType) : ''"
+        (mouseover)="showTooltip()">
+                        </div>
+                    }
+                    @else {
+                        <div class="mb-3" >
+                            <label for="expenseType" class="form-label">Account Type</label>
+                            <select [disabled] = 'true' class="form-select" id="expenseCategories" formControlName="expenseTypeId">
+                                @for (expense of expenseCategoriesDTO; track $index){
+                                    <option  [value]="expense.categoryId">{{ expense.categoryName }}</option>
+                                }
+                              </select>
+                        </div>
+                    }
+                    <div class="mb-3">
+                        <label for="subExpenseType" class="form-label">Subaccount Type</label>
+                        <input type="text" formControlName="subExpenseType" 
+                        [ngClass]="{'is-invalid': f.subExpenseType.touched && f.subExpenseType.invalid, 
+                   'is-valid': f.subExpenseType.touched && f.subExpenseType.valid}"
+                        class="form-control" id="subExpenseType" 
+                        placeholder="Enter Subaccount Type"  data-bs-toggle="tooltip" data-bs-placement="top"
+                        [attr.title]="f.subExpenseType.invalid ? getErrorMessageSub(f.subExpenseType) : ''"
+                        (mouseover)="showTooltip()">
+                    </div>
+                    <div class="form-check mb-3">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        formControlName="isActive"
+                        id="isActive"
+                        [checked]="true"
+                      />
+                      <label class="form-check-label" for="isActive">
+                        Is Active
+                      </label>
+                    </div>
+                    <div class="d-flex gap-2 justify-content-end">
+                        <button type="reset" (click)="resetExpenseType()" class="btn btn-secondary">Reset</button>
+                        <button type="button" (click)="saveExpense()"  class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+          </div>
+      
+          <div class="col-md-6">
+            <div class="container mt-4">
+              <!-- Table Header -->
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <button class="btn btn-dark fw-bold me-2" (click)="addNewExpense()">Add Account Type</button>
+                  <button class="btn btn-primary fw-bold" (click)="addNewSubexpense()">Add Subaccount Type</button>
+                </div>
+              </div>
+      
+              <!-- Responsive Table -->
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover shadow">
+                  
+                  <tbody>
+                    @for (expense of expenseCategoriesDTO; track $index; let i =
+                    $index) { 
+                      <tr >
+                           <td colspan="4" class="highlight-column text-center">
+                              {{ expense.categoryName }}
+                           </td>
+                      </tr>
+                      @for (subExpense of expense.expenseSubCategoriesDTOs;
+                    track $index; let k = $index) {
+                      
+                    <tr>
+                       <td hidden="true">
+                          {{expense.categoryId}}
+                       </td>
+                       <td hidden="true">
+                          {{subExpense.subCategoryId}}
+                       </td>
+                      
+                      <td colspan="3">
+                        {{ subExpense.subCategoryName }}
+                      </td>
+                      <td style="width: 30px;">
+                        <button class="btn btn-danger" 
+                        (click)="getSubcategoryDetails(subExpense.categoryId, subExpense.subCategoryName, subExpense.subCategoryId, subExpense.isActive)">Edit</button>
+                      </td>
+                    </tr>
+                    } }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+}
+
+

@@ -1,0 +1,34 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace FunctionAppDoc2Data.DataContext
+{
+    public partial class User
+    {
+        public User()
+        {
+            CompanyMembers = new HashSet<CompanyMember>();
+            ExpenseCategories = new HashSet<ExpenseCategory>();
+            Receipts = new HashSet<Receipt>();
+        }
+
+        public Guid UserId { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public byte[] PasswordSalt { get; set; }
+        public bool IsEmailConfirmed { get; set; }
+        public bool IsTwoFactorEnabled { get; set; }
+        public int? FailedLoginAttempts { get; set; }
+        public DateTime? LockoutEnd { get; set; }
+        public DateTime? UpdatedAt { get; set; }
+        public DateTime? LastLoginAt { get; set; }
+        public bool? IsActive { get; set; }
+
+        public virtual ICollection<CompanyMember> CompanyMembers { get; set; }
+        public virtual ICollection<ExpenseCategory> ExpenseCategories { get; set; }
+        public virtual ICollection<Receipt> Receipts { get; set; }
+    }
+}

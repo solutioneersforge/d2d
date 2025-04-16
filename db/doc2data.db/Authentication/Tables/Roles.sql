@@ -1,0 +1,8 @@
+﻿CREATE TABLE [Authentication].[Roles] (
+    [RoleID]   UNIQUEIDENTIFIER CONSTRAINT [DF_Roles_RoleID] DEFAULT (newid()) NOT NULL,
+    [RoleName] NVARCHAR (100)   NOT NULL,
+    [IsActive] BIT              CONSTRAINT [DF_Roles_IsActive] DEFAULT ((1)) NOT NULL,
+    CONSTRAINT [PK_Roles] PRIMARY KEY CLUSTERED ([RoleID] ASC),
+    CONSTRAINT [UQ__Roles__8A2B61602644367E] UNIQUE NONCLUSTERED ([RoleName] ASC)
+);
+

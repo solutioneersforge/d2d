@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Receipt]
+    AUTHORIZATION [dbo];
+
