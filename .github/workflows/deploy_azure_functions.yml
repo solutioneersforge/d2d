@@ -6,6 +6,7 @@ on:
     paths:
     - 'api/**'
 env:
+  AZURE_RESOURCE_GROUP: rg-doc2data
   AZURE_FUNCTIONAPP_NAME: fn-d2d
   AZURE_FUNCTIONAPP_PACKAGE_PATH: FunctionAppDoc2Data\published
   CONFIGURATION: Release
@@ -43,6 +44,8 @@ jobs:
     - name: Azure Login
       uses: azure/login@v2
       with:
+          scope: resourcegroup
+          resourceGroupName: ${{ env.AZURE_RESOURCE_GROUP }}
           client-id: ${{ secrets.CLIENTID }}
           tenant-id: ${{ secrets.TENANTID }}
           subscription-id: ${{ secrets.SUBSCRIPTIONID }}
