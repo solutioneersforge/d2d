@@ -36,6 +36,7 @@
 	<ItemGroup>
 	  <Folder Include="Extensions\" />
 	  <Folder Include="Properties\PublishProfiles\" />
+	  <Folder Include="Properties\ServiceDependencies\" />
 	</ItemGroup>
 	<ItemGroup>
 	  <EditorConfigFiles Remove="C:\Coding Practices\doc2data\doc2data\API\FunctionAppDoc2Data\.editorconfig" />
