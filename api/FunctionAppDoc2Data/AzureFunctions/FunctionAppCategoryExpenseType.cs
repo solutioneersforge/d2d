@@ -2,11 +2,13 @@ using FunctionAppDoc2Data.Respositories;
 using FunctionAppDoc2Data.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Functions.Worker;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using AuthorizationLevel = Microsoft.Azure.Functions.Worker.AuthorizationLevel;
 
 namespace FunctionAppDoc2Data.AzureFunctions
 {
@@ -23,7 +25,7 @@ namespace FunctionAppDoc2Data.AzureFunctions
 
         [FunctionName("FunctionAppCategoryExpenseType")]
         public async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            [Microsoft.Azure.Functions.Worker.HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             try

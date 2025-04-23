@@ -37,7 +37,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IValidatedTokenService, ValidatedTokenService>();
         builder.Services.AddScoped<IRolesRepository, RolesRepository>();
-        builder.Services.AddScoped<ICompanyUserRepository, CompanyUserRepository>(); 
+        builder.Services.AddScoped<ICompanyUserRepository, CompanyUserRepository>();
         builder.Services.AddScoped<IVerificationUserRepository, VerificationUserRepository>();
         builder.Services.AddDbContext<DocToDataDBContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")), ServiceLifetime.Scoped);

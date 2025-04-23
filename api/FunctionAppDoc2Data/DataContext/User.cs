@@ -19,6 +19,7 @@ namespace FunctionAppDoc2Data.DataContext
         public byte[] PasswordHash { get; set; }
         public DateTime CreatedAt { get; set; }
         public byte[] PasswordSalt { get; set; }
+        public Guid? AuthenticationKey { get; set; }
         public bool IsEmailConfirmed { get; set; }
         public bool IsTwoFactorEnabled { get; set; }
         public int? FailedLoginAttempts { get; set; }
