@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<AzureFunctionsVersion>v4</AzureFunctionsVersion>
@@ -9,14 +9,14 @@
 		<PackageReference Include="Microsoft.Azure.Functions.Worker.Extensions.Http.AspNetCore" Version="1.3.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="6.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
 
@@ -34,14 +34,13 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Extensions\" />
-	  <Folder Include="Properties\PublishProfiles\" />
-	  <Folder Include="Properties\ServiceDependencies\" />
+		<Folder Include="Extensions\" />
+		<Folder Include="Properties\PublishProfiles\" />
 	</ItemGroup>
 	<ItemGroup>
-	  <EditorConfigFiles Remove="C:\Coding Practices\doc2data\doc2data\API\FunctionAppDoc2Data\.editorconfig" />
+		<EditorConfigFiles Remove="C:\Coding Practices\d2d\API\FunctionAppDoc2Data\.editorconfig" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="C:\Coding Practices\doc2data\doc2data\API\FunctionAppDoc2Data\.editorconfig" />
+		<None Include="C:\Coding Practices\doc2data\d2d\.editorconfig" />
 	</ItemGroup>
 </Project>
