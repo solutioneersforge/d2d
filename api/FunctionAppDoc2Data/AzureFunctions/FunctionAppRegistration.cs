@@ -33,6 +33,7 @@ namespace FunctionAppDoc2Data.AzureFunctions
         {
             try
             {
+
                 var tokenValidation = _validatedTokenService.ValidateTokenRequest(req);
                 using StreamReader reader = new(req.Body);
                 string bodyStr = await reader.ReadToEndAsync();
@@ -78,6 +79,16 @@ namespace FunctionAppDoc2Data.AzureFunctions
                     });
                 }
 
+                if (result == 5)
+                {
+                    return new OkObjectResult(new
+                    {
+                        Data = "A verification link has been successfully sent to your email address. Please click the link to activate your account.",
+                        Message = "Success",
+                        IsSuccess = true
+                    });
+                }
+
                 return new OkObjectResult(new
                 {
                     Data = "Data Successfully Added",
@@ -103,6 +114,7 @@ namespace FunctionAppDoc2Data.AzureFunctions
         {
             try
             {
+                
                 using StreamReader reader = new(req.Body);
                 string bodyStr = await reader.ReadToEndAsync();
                 var userRegistration = JsonConvert.DeserializeObject<UserValidateModelDTO>(bodyStr);
@@ -112,7 +124,7 @@ namespace FunctionAppDoc2Data.AzureFunctions
                 {
                     return new OkObjectResult(new
                     {
-                        Data = $"User email and password is invalid",
+                        Data = $"The user email and password are invalid, or your email address has not been verified.",
                         Message = "Failed",
                         IsSuccess = false
                     });

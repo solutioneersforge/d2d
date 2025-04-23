@@ -2,6 +2,7 @@
 using FunctionAppDoc2Data.Middleware;
 using FunctionAppDoc2Data.Respositories;
 using FunctionAppDoc2Data.Services;
+using Google.Protobuf.WellKnownTypes;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -17,11 +18,9 @@ public class Startup : FunctionsStartup
     {
         var config = new ConfigurationBuilder()
         .SetBasePath(Environment.CurrentDirectory)
-        .AddJsonFile("local.settings.json", optional: true, reloadOnChange: true)
+        .AddJsonFile("local.settings.json", optional: false, reloadOnChange: true)
         .AddEnvironmentVariables()
         .Build();
-
-        var dbConnString = Environment.GetEnvironmentVariable("SqlConnectionString");
 
         builder.Services.AddSingleton<IConfiguration>(config);
         builder.Services.AddScoped<IExpenseSubExpenseRepository, ExpenseSubExpenseRepository>();
@@ -38,9 +37,22 @@ public class Startup : FunctionsStartup
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IValidatedTokenService, ValidatedTokenService>();
         builder.Services.AddScoped<IRolesRepository, RolesRepository>();
-        builder.Services.AddScoped<ICompanyUserRepository, CompanyUserRepository>();
+        builder.Services.AddScoped<ICompanyUserRepository, CompanyUserRepository>(); 
+        builder.Services.AddScoped<IVerificationUserRepository, VerificationUserRepository>();
         builder.Services.AddDbContext<DocToDataDBContext>(options =>
-                options.UseSqlServer(dbConnString), ServiceLifetime.Scoped);
+                options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")), ServiceLifetime.Scoped);
+
+
+
+
+        //builder.Services.AddDbContext<DocToDataDBContext>(options =>
+        //        options.UseSqlServer("Server=tcp:dbs-solutioneersforge.database.windows.net,1433;Initial Catalog=db-doc2data;Persist Security Info=False;User ID=serveradmin;Password=9U[X!mDG2_n89Ep:;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"), ServiceLifetime.Scoped);
+
+        //     builder.Services.AddDbContext<DocToDataDBContext>(options =>
+        //options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionStrings")), ServiceLifetime.Scoped);
+
+        //builder.Services.AddDbContext<DocToDataDBContext>(options =>
+        //        options.UseSqlServer("Server=LAPTOP-AEPPONDD\\MSSQLSERVER01;Initial Catalog=db-doc2data;Persist Security Info=False;User ID=sa;Password=123456789;MultipleActiveResultSets=False;Encrypt=False"), ServiceLifetime.Scoped);
 
     }
 

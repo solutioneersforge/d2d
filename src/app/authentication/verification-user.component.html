@@ -1,0 +1,22 @@
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh">
+@if(isSuccessLoading == 2){
+  <div class="card">
+    <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="Success Icon" />
+    <h1>Email Verified Successfully</h1>
+    <p>You're now all set. You can start exploring the full experience.</p>
+    <a href="/login" class="button">Continue to Login</a>
+  </div>
+}
+@else if(isSuccessLoading == 3) {
+  <div class="card">
+    <h1>{{responseMessage}}</h1>
+   
+    <a href="/login" class="button">Continue to Login</a>
+  </div>
+}  
+@else {
+  <div class="card" >
+    <h1>Email Verification In Process, Please Wait...</h1>
+  </div>
+}
+  </div>

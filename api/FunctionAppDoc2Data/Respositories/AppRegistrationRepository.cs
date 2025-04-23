@@ -6,6 +6,7 @@ using FunctionAppDoc2Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -40,6 +41,7 @@ public class AppRegistrationRepository : IAppRegistrationRepository
 
             try
             {
+                Guid verificationKey = Guid.NewGuid();
                 if (!string.IsNullOrEmpty(userRegisterModel.CompanyName))
                 {
                     var existingCompany = await _docToDataDBContext.Companies
@@ -91,6 +93,7 @@ public class AppRegistrationRepository : IAppRegistrationRepository
                 }
 
                 var user = userRegisterModel.MapToUserEntity();
+                user.AuthenticationKey = verificationKey;
                 await _docToDataDBContext.Users.AddAsync(user);
                 await _docToDataDBContext.SaveChangesAsync();
 
@@ -103,6 +106,11 @@ public class AppRegistrationRepository : IAppRegistrationRepository
                 }
 
                 await transaction.CommitAsync();
+                bool isMailSentSuccess = await SendVerificationMail(userRegisterModel.Email, userRegisterModel.FirstName + ' ' + userRegisterModel.LastName, verificationKey.ToString());
+                if (isMailSentSuccess)
+                {
+                    return 5;
+                }
                 return 1;
             }
             catch (Exception ex)
@@ -137,7 +145,7 @@ public class AppRegistrationRepository : IAppRegistrationRepository
                              .ThenInclude(m => m.Role)
                         .Include(m => m.CompanyMembers)
                                .ThenInclude(m => m.Company)
-            .FirstOrDefaultAsync(u => u.Email.ToLower() == usernameOrEmail.ToLower());
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == usernameOrEmail.ToLower() && u.IsEmailConfirmed);
 
         if (user == null)
             return (false, string.Empty);
@@ -185,4 +193,70 @@ public class AppRegistrationRepository : IAppRegistrationRepository
         return CryptographicOperations.FixedTimeEquals(computedHash, storedHash);
     }
 
+
+    private async Task<bool> SendVerificationMail(string toEmail, string fullName, string verificationKey)
+    {
+        string verificationUrl = $"https://app-doc2data.azurewebsites.net/verificationuser?verificationKey={verificationKey}";
+        //string verificationUrl = $"http://localhost:4200/verificationuser?verificationKey={verificationKey}";
+        string body = $@"
+<html>
+<head>
+  <style>
+    body {{
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f7;
+      color: #333333;
+      margin: 0;
+      padding: 0;
+    }}
+    .email-container {{
+      max-width: 600px;
+      margin: 30px auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }}
+    .btn {{
+      display: inline-block;
+      padding: 12px 24px;
+      margin-top: 20px;
+      font-size: 16px;
+      color: #ffffff;
+      background-color: #007bff;
+      text-decoration: none;
+      border-radius: 6px;
+    }}
+    .footer {{
+      font-size: 12px;
+      color: #888888;
+      text-align: center;
+      margin-top: 40px;
+    }}
+  </style>
+</head>
+<body>
+  <div class='email-container'>
+    <h2>Hello {fullName},</h2>
+    <p>Thank you for registering with us!</p>
+    <p>Please confirm your email address by clicking the button below:</p>
+    <a href='{verificationUrl}' class='btn' target='_blank'>Verify Email</a>
+    <p>If you did not request this, you can safely ignore this email.</p>
+    <div class='footer'>
+      <p>&copy; {DateTime.Now.Year} Solutioneers Forge. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
+";
+
+        var mailerSendRequest = new MailerSendRequest(
+                From: new("noreply@solutioneersforge.com", "Solutioneers Forge"),
+                To: new MailerSendTo[] { new MailerSendTo(toEmail, fullName) },
+                Subject: "Email Verification",
+                Text: body,
+                Html: body
+            );
+        return await ExternalMailService.SendMail(mailerSendRequest);
+    }
 }

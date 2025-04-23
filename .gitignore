@@ -4,8 +4,11 @@
 /tmp
 /out-tsc
 /bazel-out
+
 /api/FunctionAppDoc2Data/bin
 /api/FunctionAppDoc2Data/obj
+/api/FunctionAppDoc2Data/appsettings.json
+/api/FunctionAppDoc2Data/FunctionAppDoc2Data.csproj.user
 
 # Node
 /node_modules
