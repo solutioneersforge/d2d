@@ -2,7 +2,6 @@
 using FunctionAppDoc2Data.Middleware;
 using FunctionAppDoc2Data.Respositories;
 using FunctionAppDoc2Data.Services;
-using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -53,19 +52,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddScoped<IVerificationUserRepository, VerificationUserRepository>();
         builder.Services.AddDbContext<DocToDataDBContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")), ServiceLifetime.Scoped);
-
-
-
-
-        //builder.Services.AddDbContext<DocToDataDBContext>(options =>
-        //        options.UseSqlServer("Server=tcp:dbs-solutioneersforge.database.windows.net,1433;Initial Catalog=db-doc2data;Persist Security Info=False;User ID=serveradmin;Password=9U[X!mDG2_n89Ep:;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30"), ServiceLifetime.Scoped);
-
-        //     builder.Services.AddDbContext<DocToDataDBContext>(options =>
-        //options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionStrings")), ServiceLifetime.Scoped);
-
-        //builder.Services.AddDbContext<DocToDataDBContext>(options =>
-        //        options.UseSqlServer("Server=LAPTOP-AEPPONDD\\MSSQLSERVER01;Initial Catalog=db-doc2data;Persist Security Info=False;User ID=sa;Password=123456789;MultipleActiveResultSets=False;Encrypt=False"), ServiceLifetime.Scoped);
-
     }
 
     public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)

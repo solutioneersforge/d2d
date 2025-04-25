@@ -1,12 +1,8 @@
 ﻿using FunctionAppDoc2Data.DataContext;
-using FunctionAppDoc2Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FunctionAppDoc2Data.Respositories;
@@ -41,7 +37,7 @@ public class VerificationUserRepository : IVerificationUserRepository
                 {
                     return 2;
                 }
-                    authenticationUser.IsEmailConfirmed = true;
+                authenticationUser.IsEmailConfirmed = true;
                 await context.SaveChangesAsync();
                 return 1;
             }

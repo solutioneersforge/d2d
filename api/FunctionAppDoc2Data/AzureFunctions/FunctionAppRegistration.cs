@@ -114,7 +114,7 @@ namespace FunctionAppDoc2Data.AzureFunctions
         {
             try
             {
-                
+
                 using StreamReader reader = new(req.Body);
                 string bodyStr = await reader.ReadToEndAsync();
                 var userRegistration = JsonConvert.DeserializeObject<UserValidateModelDTO>(bodyStr);
