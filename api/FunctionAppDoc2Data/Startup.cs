@@ -2,7 +2,7 @@
 using FunctionAppDoc2Data.Middleware;
 using FunctionAppDoc2Data.Respositories;
 using FunctionAppDoc2Data.Services;
-using Google.Protobuf.WellKnownTypes;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +21,18 @@ public class Startup : FunctionsStartup
         .AddJsonFile("local.settings.json", optional: true, reloadOnChange: false)
         .AddEnvironmentVariables()
         .Build();
+
+        //// Add Application Insights telemetry processor (when Application Insights is configured in Azure for the Azure Function App)
+        //builder.Services.Configure<TelemetryConfiguration>(config =>
+        //{
+        //    var builder = config.TelemetryProcessorChainBuilder;
+
+        //    // Add your custom processor to the chain
+        //    builder.Use(next => new HealthCheckFilterProcessor(next));
+
+        //    // Rebuild the chain
+        //    builder.Build();
+        //});
 
         builder.Services.AddSingleton<IConfiguration>(config);
         builder.Services.AddScoped<IExpenseSubExpenseRepository, ExpenseSubExpenseRepository>();
