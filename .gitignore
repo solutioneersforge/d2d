@@ -4,11 +4,12 @@
 /tmp
 /out-tsc
 /bazel-out
-
 /api/FunctionAppDoc2Data/bin
 /api/FunctionAppDoc2Data/obj
+
+# Sensitive files
+/api/FunctionAppDoc2Data/local.settings.json
 /api/FunctionAppDoc2Data/appsettings.json
-/api/FunctionAppDoc2Data/FunctionAppDoc2Data.csproj.user
 
 # Node
 /node_modules
@@ -31,6 +32,7 @@ yarn-error.log
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+/api/FunctionAppDoc2Data/FunctionAppDoc2Data.csproj.user
 
 # Miscellaneous
 /.angular/cache
@@ -46,6 +48,3 @@ testem.log
 Thumbs.db
 /api/.vs/FunctionAppDoc2Data
 .vs
-
-# Sensitive files
-/api/FunctionAppDoc2Data/local.settings.json
