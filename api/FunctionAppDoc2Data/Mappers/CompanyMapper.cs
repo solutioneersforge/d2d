@@ -18,6 +18,7 @@ public static class CompanyMapper
             CreatedAt = DateTime.UtcNow,
             Address = userRegister.Address,
             TelephoneNumber = userRegister.TelephoneNumber,
+            CompanyEmail = userRegister.CompanyEmail,
             SubscriptionId = !String.IsNullOrEmpty(userRegister.CompanyName) ? Guid.Parse(CompanySubscriptionConstant.Premium) : Guid.Parse(CompanySubscriptionConstant.Super),
         };
     }

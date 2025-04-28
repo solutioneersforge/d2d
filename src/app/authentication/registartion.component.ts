@@ -33,6 +33,7 @@ export class RegistartionComponent {
      roleId: '',
      address: '',
      telephoneNumber: '',
+     companyEmail: ''
   };
   captchaAnswer: number = 8;
 

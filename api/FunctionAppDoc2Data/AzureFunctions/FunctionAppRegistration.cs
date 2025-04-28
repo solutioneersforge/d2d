@@ -33,13 +33,18 @@ namespace FunctionAppDoc2Data.AzureFunctions
         {
             try
             {
-
-                var tokenValidation = _validatedTokenService.ValidateTokenRequest(req);
                 using StreamReader reader = new(req.Body);
                 string bodyStr = await reader.ReadToEndAsync();
                 var userRegistration = JsonConvert.DeserializeObject<UserRegisterModelDTO>(bodyStr);
+                Guid userId = Guid.Empty;
+                if(String.IsNullOrEmpty(userRegistration.CompanyName))
+                {
+                    var tokenValidation = _validatedTokenService.ValidateTokenRequest(req);
+                    userId = tokenValidation.userId;
+                }
+                  
 
-                int result = await _appRegistrationRepository.CreateAppRegistration(userRegistration, tokenValidation.userId);
+                int result = await _appRegistrationRepository.CreateAppRegistration(userRegistration, userId);
                 if (result == -3)
                 {
                     return new OkObjectResult(new

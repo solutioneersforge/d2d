@@ -1,4 +1,7 @@
-﻿namespace FunctionAppDoc2Data.DataContext
+﻿using System;
+using System.Collections.Generic;
+
+namespace FunctionAppDoc2Data.DataContext
 {
     public partial class SubscriptionType
     {

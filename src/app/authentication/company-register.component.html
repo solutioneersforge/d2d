@@ -140,6 +140,23 @@
           />
           <div class="invalid-feedback">Telephone number is required.</div>
         </div>
+
+         <!-- Company Email -->
+         <div class="mb-3">
+          <label for="companyEmail" class="form-label">Company Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lastName"
+            placeholder="Enter your company email"
+            [(ngModel)]="companyEmail"
+            name="companyEmail"
+            #companyEmailModel="ngModel"
+            required
+            [class.is-invalid]="companyEmailModel.invalid && companyEmailModel.touched"
+          />
+          <div class="invalid-feedback">Company email is required.</div>
+        </div>
       
         <!-- Submit Button -->
         <button type="submit" class="btn btn-primary w-100" [disabled]="form.invalid">

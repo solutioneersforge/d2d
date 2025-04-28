@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace FunctionAppDoc2Data.DataContext
 {
     public partial class DocToDataDBContext : DbContext
     {
-
         public DocToDataDBContext(DbContextOptions<DocToDataDBContext> options)
             : base(options)
         {
@@ -37,8 +38,8 @@ namespace FunctionAppDoc2Data.DataContext
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var dbConnString = Environment.GetEnvironmentVariable("SqlConnectionString");
-                optionsBuilder.UseSqlServer(dbConnString);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=tcp:dbs-solutioneersforge.database.windows.net,1433;Initial Catalog=db-doc2data;Persist Security Info=False;User ID=serveradmin;Password=9U[X!mDG2_n89Ep:;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30");
             }
         }
 
@@ -56,6 +57,8 @@ namespace FunctionAppDoc2Data.DataContext
                     .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Address).HasMaxLength(550);
+
+                entity.Property(e => e.CompanyEmail).HasMaxLength(150);
 
                 entity.Property(e => e.CompanyName)
                     .IsRequired()

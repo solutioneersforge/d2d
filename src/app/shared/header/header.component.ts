@@ -16,7 +16,9 @@ export class HeaderComponent  implements OnInit {
   companyName !: Observable<string>;
   isAdminUser : boolean = false;
   roleName !: Observable<string>;
-
+  companyEmail !: Observable<string>;
+  companyAddress !: Observable<string>;
+  companyPhoneNumber !: Observable<string>;
   authService = inject(AuthenticationService); 
 
   /**
@@ -33,7 +35,9 @@ export class HeaderComponent  implements OnInit {
     this.companyName = this.authService.getCompanyDisplay;
     this.roleName = this.authService.getRoleNameDisplay;
     this.isAdminUser = this.authService.getRoleName?.toLowerCase() == 'admin'; 
-
+    this.companyAddress = this.authService.getCompanyAddress;
+    this.companyEmail = this.authService.getCompanyEmail;
+    this.companyPhoneNumber = this.authService.getCompanyPhoneNumber; 
   }
 
   collapseNavbar() {
@@ -49,8 +53,8 @@ export class HeaderComponent  implements OnInit {
       navbarCollapse.classList.remove('show');
     }
     this.authService.setIsLogged(true);
-      this.authService.removeToken();
-     
+    this.authService.removeToken();
+    this.router.navigate(['/login']);
   }
 
 

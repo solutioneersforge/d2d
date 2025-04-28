@@ -8,4 +8,5 @@ export interface UserRegisterModeldto {
     roleId: string | null;
     telephoneNumber: string | null;
     address: string | null;
+    companyEmail: string | null;
 }

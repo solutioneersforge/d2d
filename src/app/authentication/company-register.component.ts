@@ -24,6 +24,8 @@ export class CompanyRegisterComponent {
   captchaInput: string = '';
   address: string = '';
   telephoneNumber : string = '';
+  companyEmail: string = '';
+  
   userRegisterModeldto: UserRegisterModeldto = {
     companyName: '',
     firstName: '',
@@ -33,7 +35,8 @@ export class CompanyRegisterComponent {
      companyId : '',
      roleId: '',
      telephoneNumber: '',
-     address: ''
+     address: '',
+     companyEmail: '',
   };
   captchaAnswer: number = 8;
 
@@ -53,6 +56,7 @@ export class CompanyRegisterComponent {
     this.userRegisterModeldto.password = this.password;
     this.userRegisterModeldto.telephoneNumber = this.telephoneNumber;
     this.userRegisterModeldto.address = this.address;
+    this.userRegisterModeldto.companyEmail = this.companyEmail;
     this.isLoading = true;
     this.authService
       .postFunctionAppRegistration(this.userRegisterModeldto)

@@ -35,6 +35,7 @@ export class CompanyUserRegistrationComponent implements OnInit {
       roleId: '',
       address: '',
       telephoneNumber: '',
+      companyEmail:'',
     };
 
   constructor(private fb: FormBuilder) {
@@ -107,6 +108,7 @@ getFunctionAppGetCompanyUser(){
       roleId:  this.userForm.get('roleId')?.value || '',
       telephoneNumber: this.userForm.get('telephoneNumber')?.value || '',
       address: this.userForm.get('address')?.value || '',
+      companyEmail: this.userForm.get('companyEmail')?.value || '',
     }
     this.isLoading = true;
     this.authService

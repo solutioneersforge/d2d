@@ -16,6 +16,7 @@ namespace FunctionAppDoc2Data.DataContext
         public DateTime CreatedAt { get; set; }
         public string Address { get; set; }
         public string TelephoneNumber { get; set; }
+        public string CompanyEmail { get; set; }
 
         public virtual Subscription Subscription { get; set; }
         public virtual ICollection<CompanyMember> CompanyMembers { get; set; }

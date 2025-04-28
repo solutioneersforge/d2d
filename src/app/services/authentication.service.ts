@@ -17,6 +17,10 @@ export class AuthenticationService {
  private companyName = new BehaviorSubject<string>("");
  private roleName = new BehaviorSubject<string>("");
 
+ private companyPhoneNumber = new BehaviorSubject<string>("");
+ private companyEmail = new BehaviorSubject<string>("");
+ private companyAddress = new BehaviorSubject<string>("");
+
 constructor(private httpClient : HttpClient, private jwtService: JwtService) { }
 
 get isLoggedIn() {
@@ -29,6 +33,19 @@ get getUserName() {
 
 get getCompanyDisplay() {
   return this.companyName.asObservable();
+}
+
+
+get getCompanyPhoneNumber(){
+   return this.companyPhoneNumber.asObservable();
+}
+
+get getCompanyEmail(){
+  return this.companyEmail.asObservable();
+}
+
+get getCompanyAddress(){
+  return this.companyAddress.asObservable();
 }
 
 get getRoleNameDisplay(){
@@ -58,9 +75,13 @@ getToken(): string | null {
 
 removeToken(){
   sessionStorage.removeItem('jwt_token');
-  this.userName.next(this.jwtService.getFullName(this.getToken() ?? ""));
-  this.companyName.next(this.jwtService.getCompanyName(this.getToken() ?? ""));
+  this.userName.next("");
+  this.companyName.next("");
   this.loggedIn.next(false);
+  this.roleName.next("");
+  this.companyEmail.next("");
+  this.companyAddress.next("");
+  this.companyPhoneNumber.next("");
 }
 
 setUserName(){
@@ -68,6 +89,9 @@ setUserName(){
   this.userName.next(this.jwtService.getFullName(this.getToken() ?? ""));
   this.companyName.next(this.jwtService.getCompanyName(this.getToken() ?? ""));
   this.roleName.next(this.jwtService.getRoleName(this.getToken() ?? ""));
+  this.companyEmail.next(this.jwtService.getCompanyEmail(this.getToken() ?? ""));
+  this.companyAddress.next(this.jwtService.getCompanyAddress(this.getToken() ?? ""));
+  this.companyPhoneNumber.next(this.jwtService.getCompanyPhoneNumber(this.getToken() ?? ""));
 }
 
 get getUserId() : string{

@@ -12,6 +12,7 @@ public class UserRegisterModelDTO
     public Guid? RoleId { get; set; }
     public string TelephoneNumber { get; set; }
     public string Address { get; set; }
+    public string CompanyEmail { get; set; }
 }
 
 

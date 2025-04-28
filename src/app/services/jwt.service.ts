@@ -49,5 +49,20 @@ export class JwtService {
     const decodedToken = this.getDecodedToken(token);
     return decodedToken ? decodedToken.company_name || '' : '';
   }
+
+  getCompanyEmail(token: string): string {
+    const decodedToken = this.getDecodedToken(token);
+    return decodedToken ? decodedToken.company_email || '' : '';
+  }
+
+  getCompanyPhoneNumber(token: string): string {
+    const decodedToken = this.getDecodedToken(token);
+    return decodedToken ? decodedToken.company_phone || '' : '';
+  }
+
+  getCompanyAddress(token: string): string {
+    const decodedToken = this.getDecodedToken(token);
+    return decodedToken ? decodedToken.company_address || '' : '';
+  }
 }
 

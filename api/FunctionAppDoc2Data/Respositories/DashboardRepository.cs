@@ -103,9 +103,6 @@ public class DashboardRepository : IDashboardRepository
                 dashboard.MerchantDashboardDTOs = merchantsReceipts;
                 dashboard.ExpenseMerchantDashboardDTOs = expenseReceipts;
 
-                decimal averageMonthlySpending = 0;
-                decimal averageDailySpending = 0;
-
                 var now = DateTime.Now;
                 int currentYear = now.Year;
                 int currentMonth = now.Month;
