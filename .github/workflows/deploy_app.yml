@@ -61,6 +61,5 @@ jobs:
         with:
           app-name: 'app-doc2data'
           slot-name: 'Production'
-          package: .
-          enable-logging: true # Enable detailed logs
+          package: dist/doc2data
           
