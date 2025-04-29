@@ -26,6 +26,7 @@ public class AuthService : IAuthService
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+
         var claims = new[]
         {
                 new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
@@ -33,11 +34,11 @@ public class AuthService : IAuthService
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.GivenName,$"{user.FirstName} {user.LastName}"),
                 new Claim("role_name", user.CompanyMembers.Count == 0  ? "Individual" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId).Role.RoleName),
-                new Claim("company_id", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId).CompanyId.ToString()),
-                new Claim("company_name", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId).Company.CompanyName.ToString()),
-                new Claim("company_email", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId).Company.CompanyEmail.ToString()),
-                new Claim("company_address", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId).Company.Address.ToString()),
-                new Claim("company_phone", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId).Company.TelephoneNumber.ToString()),
+                new Claim("company_id", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.CompanyId.ToString()),
+                new Claim("company_name", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.Company?.CompanyName ?? ""),
+                new Claim("company_email", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.Company?.CompanyEmail ?? ""),
+                new Claim("company_address", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.Company?.Address ?? ""),
+                new Claim("company_phone", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.Company?.TelephoneNumber ?? ""),
         };
 
         var token = new JwtSecurityToken(
