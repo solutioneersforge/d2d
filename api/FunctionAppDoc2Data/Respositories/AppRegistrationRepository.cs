@@ -193,6 +193,8 @@ public class AppRegistrationRepository : IAppRegistrationRepository
     }
 
 
+
+
     private async Task<bool> SendVerificationMail(string toEmail, string fullName, string verificationKey)
     {
         string verificationUrl = $"https://app-doc2data.azurewebsites.net/verificationuser?verificationKey={verificationKey}";
