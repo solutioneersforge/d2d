@@ -17,6 +17,7 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { RegisterTypeComponent } from './authentication/register-type.component';
 import { CompanyRegisterComponent } from './authentication/company-register.component';
 import { CompanyUserRegistrationComponent } from './authentication/company-user-registration.component';
+import { VerificationUserComponent } from './authentication/verification-user.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -31,6 +32,7 @@ export const routes: Routes = [
   { path: 'individualregister', component: RegistartionComponent },
   { path: 'companyregister', component: CompanyRegisterComponent },
   { path: 'forgetpassword', component: ForgetPasswordComponent },
+  {path: 'verificationuser', component: VerificationUserComponent},
   { path: 'history', component: ReceiptHistoryComponent, canActivate: [AuthGuardService] },
   { path: 'accounts', component: ExpenseTypeComponent, canActivate: [AuthGuardService] },
   { path: 'reports', component: ReportDashboardComponent, canActivate: [AuthGuardService]},

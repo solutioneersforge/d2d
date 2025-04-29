@@ -110,4 +110,8 @@ get getRoleName(): string{
   return this.jwtService.getRoleName(this.getToken() ?? "");
 }
 
+postFunctionAppUserVerification(verificationKey: string) : Observable<any>{
+  return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppUserVerification?verificationKey=${verificationKey}`,null);
+}
+
 }
