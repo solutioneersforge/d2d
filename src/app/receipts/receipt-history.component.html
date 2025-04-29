@@ -6,27 +6,67 @@
   </div>
 </div>
 } @else {
-<div class="container-fluid">
-  <div class="row p-5">
-    @for (item of receiptDashboardDTO; track $index) {
-    <div class="col-12 col-sm-12 col-md-4 col-lg-3 mb-2">
-      <div class="card">
-        <div class="card-header d-flex">
-          <strong> {{ item.merchantName }}</strong>
-          <strong class="ms-auto"> {{ item.totalAmount | currency }}</strong>
-        </div>
-        <div class="card-body d-flex flex-column">
-          <p class="card-text" ><strong>Address: </strong> {{ item.merchantAddress }}</p>
-          <p class="card-text"><strong>Invoice: </strong> {{ item.receiptNumber }}</p>
-          <p class="card-text"><strong>Invoice Date: </strong> {{ item.receiptDate | date }}</p>
-          <p class="card-text"><strong>Customer: </strong> {{ item.customerName }}</p>
-          <p class="card-text"><strong>Customer Address: </strong> {{ item.customerAddress }}</p>
-          <p class="card-text"><strong>Subtotal: </strong> {{ item.subTotalAmount |currency }}</p>
-          <p class="card-text"><strong>Status:  <span [ngClass]="getStatusClass(item.statusId.toString())">{{ item.statusName }}</span></strong> </p>
-        </div>
+  <div class="container-fluid p-5">
+    <!-- Cards View for Mobile -->
+    <div class="d-block d-lg-none">
+      <div class="row">
+        @for (item of receiptDashboardDTO; track $index) {
+          <div class="col-12 mb-2">
+            <div class="card">
+              <div class="card-header d-flex">
+                <strong>{{ item.merchantName }}</strong>
+                <strong class="ms-auto">{{ item.totalAmount | currency }}</strong>
+              </div>
+              <div class="card-body d-flex flex-column">
+                <p class="card-text"><strong>Address: </strong> {{ item.merchantAddress }}</p>
+                <p class="card-text"><strong>Invoice: </strong> {{ item.receiptNumber }}</p>
+                <p class="card-text"><strong>Invoice Date: </strong> {{ item.receiptDate | date }}</p>
+                <p class="card-text"><strong>Customer: </strong> {{ item.customerName }}</p>
+                <p class="card-text"><strong>Customer Address: </strong> {{ item.customerAddress }}</p>
+                <p class="card-text"><strong>Subtotal: </strong> {{ item.subTotalAmount | currency }}</p>
+                <p class="card-text"><strong>Status: <span [ngClass]="getStatusClass(item.statusId.toString())">{{ item.statusName }}</span></strong></p>
+              </div>
+            </div>
+          </div>
+        }
       </div>
     </div>
-    }
+  
+    <!-- Table View for Desktop -->
+    <div class="d-none d-lg-block">
+      <table class="table table-bordered table-hover">
+        <thead class="table-primary">
+          <tr>
+            <th>No.</th>
+            <th>Invoice Date</th>
+            <th>Invoice</th>
+            <th>Customer</th>
+            <th>Customer Address</th>
+            <th>Merchant</th>
+            <th>Address</th>
+            <th>Total</th>
+            <th>Subtotal</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of receiptDashboardDTO; track $index) {
+            <tr>
+              <td>{{ $index + 1 }}</td>
+              <td>{{ item.receiptDate | date }}</td>
+              <td>{{ item.receiptNumber }}</td>
+              <td>{{ item.customerName }}</td>
+              <td>{{ item.customerAddress }}</td>
+              <td>{{ item.merchantName }}</td>
+              <td>{{ item.merchantAddress }}</td>
+              <td>{{ item.totalAmount | currency }}</td>
+              <td>{{ item.subTotalAmount | currency }}</td>
+              <td><span [ngClass]="getStatusClass(item.statusId.toString())">{{ item.statusName }}</span></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+  
 }
