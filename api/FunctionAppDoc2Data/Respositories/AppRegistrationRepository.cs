@@ -118,7 +118,7 @@ public class AppRegistrationRepository : IAppRegistrationRepository
 
                     if (companyMember != null)
                     {
-                        if (companyMember.RoleId == Guid.Parse(RolesConstant.Manager))
+                        if (companyMember.RoleId.ToString().ToLower() == RolesConstant.Manager.ToLower())
                         {
                             int numberOfUsers = _docToDataDBContext
                                                 .CompanyMembers

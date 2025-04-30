@@ -23,7 +23,8 @@ public class ReceiptHistoryRepository : IReceiptHistoryRepository
 
         List<Guid> listOfUserId;
 
-        if (companyMember != null && (companyMember.RoleId.ToString() == RolesConstant.Manager || companyMember.RoleId.ToString() == RolesConstant.Approver))
+        if (companyMember != null && (companyMember.RoleId.ToString().ToLower() == RolesConstant.Manager.ToLower() 
+            || companyMember.RoleId.ToString().ToLower() == RolesConstant.Approver.ToLower()))
         {
             listOfUserId = _docToDataDBContext.CompanyMembers
                               .Where(m => m.CompanyId == companyMember.CompanyId)

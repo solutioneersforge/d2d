@@ -34,7 +34,7 @@ public class DashboardRepository : IDashboardRepository
                              .FirstOrDefault(m => m.UserId == userId);
 
                 List<Guid> listOfUserId;
-                if (companyMember != null && companyMember.RoleId.ToString() == RolesConstant.Manager)
+                if (companyMember != null && companyMember.RoleId.ToString().ToLower() == RolesConstant.Manager.ToLower())
                 {
                     listOfUserId = _docToDataDBContext.CompanyMembers
                                       .Where(m => m.CompanyId == companyMember.CompanyId)
@@ -107,13 +107,15 @@ public class DashboardRepository : IDashboardRepository
                 int currentYear = now.Year;
                 int currentMonth = now.Month;
 
-                var receiptsThisMonth = context.Receipts.Where(r => r.ReceiptDate.Year == currentYear && r.ReceiptDate.Month == currentMonth && r.UserId == userId);
+                var receiptsThisMonth = context.Receipts
+                    .Where(r => r.ReceiptDate.Year == currentYear && r.ReceiptDate.Month == currentMonth 
+                     && listOfUserId.Contains(r.UserId));
 
                 decimal totalSpendingThisMonth = receiptsThisMonth.Sum(r => (decimal?)r.TotalAmount) ?? 0;
 
                 int daysPassed = Math.Max(1, now.Day);
 
-                var receiptsTillToday = context.Receipts.Where(r => r.ReceiptDate <= now && r.UserId == userId);
+                var receiptsTillToday = context.Receipts.Where(r => r.ReceiptDate <= now && listOfUserId.Contains(r.UserId));
                 dashboard.TotalSpendingTillToday = receiptsTillToday.Sum(r => (decimal?)r.TotalAmount) ?? 0;
 
                 dashboard.AvgMonSpending = totalSpendingThisMonth;
