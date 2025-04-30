@@ -8,23 +8,8 @@
         <p class="lead">Scan and digitize your receipts effortlessly</p>
       </div>
     </div>
-  
-    <!-- Row for the content -->
-    <div class="row">
-      <!-- Right Column - Text Content -->
-      <div class="col-lg-6">
-        <div class="mt-5">
-            <h4>How It Works</h4>
-            <p>Upload your receipt image or PDF file, and let our app extract the key details!</p>
-            <ul class="list-group">
-              <li class="list-group-item">Image or PDF Upload</li>
-              <li class="list-group-item">OCR Scanning</li>
-              <li class="list-group-item">Automatic Data Extraction</li>
-            </ul>
-          </div>
-      </div>
-    </div>
-
+   @if(isLoggedIn | async)
+   {
     <div class="container mt-4">
       <h4 class="mb-3">Tab Navigation Table</h4>
       <div class="table-responsive">
@@ -37,27 +22,27 @@
           </thead>
           <tbody>
             <tr>
-              <td><a  class="btn btn-link" routerLink="/dashboard">Click to view highlights</a></td>
+              <td><a  class="btn btn-link" (click)="goToDashboard()">Click to view highlights</a></td>
               <td>Dashboard</td>
             </tr>
             <tr>
-              <td><a class="btn btn-link" routerLink="/users">Click to create users</a></td>
+              <td><a class="btn btn-link" (click)="goToUsers()">Click to create users</a></td>
               <td>Users</td>
             </tr>
             <tr>
-              <td><a class="btn btn-link" routerLink="/scan">Click to Scan receipts/bills</a></td>
+              <td><a class="btn btn-link" (click)="goToScan()">Click to Scan receipts/bills</a></td>
               <td>Scan</td>
             </tr>
             <tr>
-              <td><a class="btn btn-link" routerLink="/history" >Click to view transaction history</a></td>
+              <td><a class="btn btn-link" (click)="goToHistory()" >Click to view transaction history</a></td>
               <td>History</td>
             </tr>
             <tr>
-              <td><a  class="btn btn-link" routerLink="/accounts">Click to create accounts</a></td>
+              <td><a  class="btn btn-link" (click)="goToAccounts()">Click to create accounts</a></td>
               <td>Accounts</td>
             </tr>
             <tr>
-              <td><a class="btn btn-link" routerLink="/reports">Click to view reports</a></td>
+              <td><a class="btn btn-link" (click)="goToReports()">Click to view reports</a></td>
               <td>Reports</td>
             </tr>
             <tr>
@@ -68,6 +53,25 @@
         </table>
       </div>
     </div>
+   }
+   @else {
+      <!-- Row for the content -->
+      <div class="row">
+        <!-- Right Column - Text Content -->
+        <div class="col-lg-6">
+          <div class="mt-5">
+              <h4>How It Works</h4>
+              <p>Upload your receipt image or PDF file, and let our app extract the key details!</p>
+              <ul class="list-group">
+                <li class="list-group-item">Image or PDF Upload</li>
+                <li class="list-group-item">OCR Scanning</li>
+                <li class="list-group-item">Automatic Data Extraction</li>
+              </ul>
+            </div>
+        </div>
+      </div>
+   }
+   
   </div>
   
   
