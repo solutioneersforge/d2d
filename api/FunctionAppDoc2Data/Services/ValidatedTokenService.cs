@@ -17,32 +17,32 @@ public class ValidatedTokenService : IValidatedTokenService
         _config = config;
     }
 
-    public (bool isSuccess, Guid userId) ValidateTokenRequest(HttpRequest req)
+    public (bool isSuccess, Guid userId, Guid companyId) ValidateTokenRequest(HttpRequest req)
     {
         if (!req.Headers.TryGetValue("Authorization", out var authHeaderValues))
         {
-            return (false, Guid.Empty);
+            return (false, Guid.Empty, Guid.Empty);
         }
 
         string authorizationHeader = authHeaderValues;
 
         if (string.IsNullOrEmpty(authorizationHeader) || !authorizationHeader.StartsWith("Bearer "))
         {
-            return (false, Guid.Empty);
+            return (false, Guid.Empty, Guid.Empty);
         }
 
         string token = authorizationHeader.Substring("Bearer ".Length).Trim();
 
-        var userId = ValidateToken(token);
+        var validateToken = ValidateToken(token);
 
-        if (userId == null)
+        if (validateToken.userId == null)
         {
-            return (false, Guid.Empty);
+            return (false, Guid.Empty,Guid.Empty);
         }
-        return (true, Guid.Parse(userId));
+        return (true, Guid.Parse(validateToken.userId), Guid.Parse(validateToken.companyId));
     }
 
-    private string ValidateToken(string token)
+    private (string? userId, string? companyId) ValidateToken(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         string secretKey = _config["Jwt:SecretKey"];
@@ -60,7 +60,8 @@ public class ValidatedTokenService : IValidatedTokenService
         var principal = tokenHandler.ValidateToken(token, validationParameters, out validatedToken);
 
         var userIdClaim = principal.FindFirst(ClaimTypes.NameIdentifier) ?? principal.FindFirst("sub");
-        return userIdClaim?.Value;
+        var companyIdClaim = principal.FindFirst("company_id");
+        return (userIdClaim?.Value, companyIdClaim?.Value);
     }
 
     private HttpResponseData CreateResponse(HttpRequestData req, string message, System.Net.HttpStatusCode statusCode)

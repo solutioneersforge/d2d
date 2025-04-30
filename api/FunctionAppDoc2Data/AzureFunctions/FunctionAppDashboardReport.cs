@@ -25,6 +25,7 @@ namespace FunctionAppDoc2Data.AzureFunctions
             _validatedTokenService = validatedTokenService;
         }
 
+
         [FunctionName("FunctionAppDashboardReport")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,

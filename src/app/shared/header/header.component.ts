@@ -3,10 +3,13 @@ import { Router, RouterLink, RouterLinkActive, RouterModule } from '@angular/rou
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../services/authentication.service';
 import { CommonModule } from '@angular/common';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { CompanyUpdateModalComponent } from '../../modal/company-update-modal.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, CommonModule, RouterModule],
+  imports: [RouterLink, RouterLinkActive, CommonModule, RouterModule,  ModalModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -21,12 +24,20 @@ export class HeaderComponent  implements OnInit {
   companyPhoneNumber !: Observable<string>;
   authService = inject(AuthenticationService); 
 
+  bsModalRef?: BsModalRef;
+  
   /**
    *
    */
-  constructor(private router : Router) {
+  constructor(private router : Router, private modalService: BsModalService) {
     
     
+  }
+
+  openModal() {
+    this.bsModalRef = this.modalService.show(CompanyUpdateModalComponent, {
+      class: 'modal-md'
+    });
   }
   
   ngOnInit() {

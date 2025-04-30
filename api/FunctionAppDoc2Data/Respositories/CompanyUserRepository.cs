@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Microsoft.ApplicationInsights.MetricDimensionNames.TelemetryContext;
 
 namespace FunctionAppDoc2Data.Respositories;
 public class CompanyUserRepository : ICompanyUserRepository
@@ -37,5 +38,28 @@ public class CompanyUserRepository : ICompanyUserRepository
                     .ToListAsync();
 
         return companyUserResult.GetCompanyUserDTOs();
+    }
+
+    public async Task<int> UpdateCompanyDetails(Guid companyId, CompanyUpdateDTO companyUpdate)
+    {
+        if (companyId == Guid.Empty || companyUpdate == null)
+        {
+            return 0;
+        }
+
+        var companyResult = await _docToDataDBContext.Companies
+            .FirstOrDefaultAsync(m => m.CompanyId == companyId);
+
+        if (companyResult == null)
+        {
+            return 0;
+        }
+
+        companyResult.CompanyEmail = companyUpdate.CompanyEmail;
+        companyResult.CompanyName = companyUpdate.CompanyName;
+        companyResult.TelephoneNumber = companyUpdate.CompanyPhoneNumber;
+        companyResult.Address = companyUpdate.CompanyAddress;
+
+        return await _docToDataDBContext.SaveChangesAsync();
     }
 }

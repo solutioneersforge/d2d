@@ -1,0 +1,96 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Company</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="close()"></button>
+  </div>
+  <div class="modal-body">
+    <form (ngSubmit)="onSubmit()" #companyForm="ngForm" novalidate>
+      
+      <!-- Company Name -->
+      <div class="mb-3">
+        <label for="companyName" class="form-label">Company Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="companyName"
+          [(ngModel)]="companyData.companyName"
+          name="companyName"
+          required
+          #companyName="ngModel"
+          [ngClass]="{ 'is-invalid': companyName.invalid && companyName.touched }"
+        />
+        <div class="invalid-feedback">
+          Company name is required.
+        </div>
+      </div>
+  
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="companyEmail" class="form-label">Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="companyEmail"
+          [(ngModel)]="companyData.companyEmail"
+          name="companyEmail"
+          required
+          email
+          #companyEmail="ngModel"
+          [ngClass]="{ 'is-invalid': companyEmail.invalid && companyEmail.touched }"
+        />
+        <div class="invalid-feedback" *ngIf="companyEmail.errors?.['required']">
+          Email is required.
+        </div>
+        <div class="invalid-feedback" *ngIf="companyEmail.errors?.['email']">
+          Enter a valid email address.
+        </div>
+      </div>
+  
+      <!-- Phone Number -->
+      <div class="mb-3">
+        <label for="companyPhoneNumber" class="form-label">Phone Number</label>
+        <input
+          type="tel"
+          class="form-control"
+          id="companyPhoneNumber"
+          [(ngModel)]="companyData.companyPhoneNumber"
+          name="companyPhoneNumber"
+          required
+          pattern="^[0-9]{10}$"
+          #companyPhoneNumber="ngModel"
+          [ngClass]="{ 'is-invalid': companyPhoneNumber.invalid && companyPhoneNumber.touched }"
+        />
+        <div class="invalid-feedback" *ngIf="companyPhoneNumber.errors?.['required']">
+          Phone number is required.
+        </div>
+        <div class="invalid-feedback" *ngIf="companyPhoneNumber.errors?.['pattern']">
+          Enter a valid 10-digit phone number.
+        </div>
+      </div>
+  
+      <!-- Address -->
+      <div class="mb-3">
+        <label for="companyAddress" class="form-label">Address</label>
+        <textarea
+          class="form-control"
+          id="companyAddress"
+          rows="3"
+          [(ngModel)]="companyData.companyAddress"
+          name="companyAddress"
+          required
+          #companyAddress="ngModel"
+          [ngClass]="{ 'is-invalid': companyAddress.invalid && companyAddress.touched }"
+        ></textarea>
+        <div class="invalid-feedback">
+          Address is required.
+        </div>
+      </div>
+  
+      <!-- Buttons -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="close()">Cancel</button>
+        <button type="submit" class="btn btn-primary" [disabled]="companyForm.invalid">Update</button>
+      </div>
+  
+    </form>
+  </div>
+  

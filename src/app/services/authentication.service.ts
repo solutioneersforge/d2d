@@ -6,6 +6,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { UserValidateModeldto } from '../interfaces/user-validate-modeldto';
 import { JwtService } from './jwt.service';
 import { UserModelDTO } from '../interfaces/user-model-dto';
+import { CompanyUpdateDTO } from '../interfaces/company-update-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -67,6 +68,10 @@ postFunctionAppUpdateUser(userModeldto: UserModelDTO) : Observable<any>{
 
 postFunctionAppUserValidate(userValidateModeldto: UserValidateModeldto) : Observable<any>{
   return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppUserValidate`, userValidateModeldto);
+}
+
+postFunctionAppUpdateCompany(companyUpdateDto: CompanyUpdateDTO) : Observable<any>{
+  return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppUpdateCompany`, companyUpdateDto);
 }
 
 setToken(token: string): void {
