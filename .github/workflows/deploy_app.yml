@@ -66,4 +66,5 @@ jobs:
           app-name: 'app-doc2data'
           slot-name: 'Production'
           package: .
+          enable-verbose-logging: true
           
