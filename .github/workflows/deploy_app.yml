@@ -63,5 +63,5 @@ jobs:
         with:
           app-name: 'app-doc2data'
           slot-name: 'Production'
-          package: dist/doc2data
+          package: .
           
