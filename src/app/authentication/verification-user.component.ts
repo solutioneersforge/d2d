@@ -18,7 +18,6 @@ export class VerificationUserComponent implements OnInit {
 ngOnInit(): void {
   this.route.queryParamMap.subscribe(params => {
     const verificationKey = params.get('verificationKey');
-    alert(verificationKey)
     if(verificationKey == null){
 
     }
