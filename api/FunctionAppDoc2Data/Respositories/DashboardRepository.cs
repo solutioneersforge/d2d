@@ -45,6 +45,8 @@ public class DashboardRepository : IDashboardRepository
                 {
                     listOfUserId = new List<Guid> { userId };
                 }
+
+
                 var context = scope.ServiceProvider.GetRequiredService<DocToDataDBContext>();
                 var merchantsReceipts = await context.Receipts
                     .Include(m => m.Merchant)
