@@ -21,7 +21,8 @@ public static class CompanyUserMapper
             IsActive = m.User.IsActive.GetValueOrDefault(),
             LastName = m.User.LastName,
             RoleId = m.RoleId,
-            RoleName = m.Role.RoleName
+            RoleName = m.Role.RoleName,
+            UserId = m.User.UserId,
         }).ToList();
     }
 }

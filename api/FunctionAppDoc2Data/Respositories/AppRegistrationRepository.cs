@@ -26,7 +26,58 @@ public class AppRegistrationRepository : IAppRegistrationRepository
         _docToDataDBContext = docToDataDBContext;
         _authService = authService;
     }
+    public async Task<int> UpdateUserInformation(UserModelDTO userModel, Guid userId = default)
+    {
+        try
+        {
+            if (userModel == null)
+            {
+                throw new ArgumentNullException(nameof(userModel), "User model is null.");
+            }
 
+            await using var transaction = await _docToDataDBContext.Database.BeginTransactionAsync();
+
+            try
+            {
+                var userInformation = _docToDataDBContext.Users
+                    .Include(m => m.CompanyMembers)
+                    .SingleOrDefault(m => m.UserId == userModel.UserId);
+                if (userInformation == null)
+                {
+                    return 0;
+                }
+                userInformation.IsActive = userModel.IsActive;
+                userInformation.FirstName = userModel.FirstName;
+                userInformation.LastName = userModel.LastName;
+                userInformation.CompanyMembers.FirstOrDefault().RoleId = userModel.RoleId;
+                await _docToDataDBContext.SaveChangesAsync();
+                await transaction.CommitAsync();
+                return 1;
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                _logger.LogError(ex, "An error occurred, rolling back transaction.");
+                throw new ApplicationException("An unexpected error occurred while creating the user.", ex);
+            }
+        }
+        catch (DbUpdateException dbEx)
+        {
+            _logger.LogError(dbEx, "Database error occurred while creating the user.");
+            throw new ApplicationException("A database error occurred while creating the user.", dbEx);
+        }
+        catch (ArgumentNullException argEx)
+        {
+            _logger.LogError(argEx, "Null parameter encountered.");
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "An unexpected error occurred while creating the user.");
+            throw new ApplicationException("An unexpected error occurred while creating the user.", ex);
+        }
+
+    }
     public async Task<int> CreateAppRegistration(UserRegisterModelDTO userRegisterModel, Guid userId = default)
     {
         try
@@ -191,8 +242,6 @@ public class AppRegistrationRepository : IAppRegistrationRepository
 
         return CryptographicOperations.FixedTimeEquals(computedHash, storedHash);
     }
-
-
 
 
     private async Task<bool> SendVerificationMail(string toEmail, string fullName, string verificationKey)

@@ -32,37 +32,53 @@
                 </div>
               </div>
             </div>
-          
+            @if(isEdit === false){
             <div class="mb-3">
               <label class="form-label">Email</label>
               <input type="email" class="form-control" formControlName="email" placeholder="Enter email">
               <div *ngIf="userForm.get('email')?.invalid && (userForm.get('email')?.touched || userForm.get('email')?.dirty)" class="invalid-feedback">
                 Please enter a valid email.
               </div>
-            </div>
+            </div>}
           
+            @if(isEdit === false){
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Password</label>
+                  <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
+                  <div *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.touched || userForm.get('password')?.dirty)" class="invalid-feedback">
+                    Password is required and should be at least 6 characters.
+                  </div>
+                </div>
+            
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Confirm Password</label>
+                  <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm password">
+                  <div *ngIf="userForm.get('confirmPassword')?.invalid && (userForm.get('confirmPassword')?.touched || userForm.get('confirmPassword')?.dirty)" class="invalid-feedback">
+                    Please confirm your password.
+                  </div>
+                  <div *ngIf="userForm.get('confirmPassword')?.value !== userForm.get('password')?.value && userForm.get('confirmPassword')?.touched" class="invalid-feedback">
+                    Passwords must match.
+                  </div>
+                </div>
+              </div>
+            }
             <div class="row">
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-control" formControlName="password" placeholder="Enter password">
-                <div *ngIf="userForm.get('password')?.invalid && (userForm.get('password')?.touched || userForm.get('password')?.dirty)" class="invalid-feedback">
-                  Password is required and should be at least 6 characters.
-                </div>
-              </div>
-          
-              <div class="col-md-6 mb-3">
-                <label class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirm password">
-                <div *ngIf="userForm.get('confirmPassword')?.invalid && (userForm.get('confirmPassword')?.touched || userForm.get('confirmPassword')?.dirty)" class="invalid-feedback">
-                  Please confirm your password.
-                </div>
-                <div *ngIf="userForm.get('confirmPassword')?.value !== userForm.get('password')?.value && userForm.get('confirmPassword')?.touched" class="invalid-feedback">
-                  Passwords must match.
-                </div>
-              </div>
+            <div class="form-check col-md-6 mb-3">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="isActive"
+                id="isActive"
+                [checked]="true"
+              />
+              <label class="form-check-label" for="isActive">
+                Active? 
+              </label>
             </div>
-          
-            <div class="d-grid gap-2">
+          </div>
+            <div class="d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-danger btn-lg" (click)="resetUserForm()">Reset</button>
               <button type="submit" class="btn btn-primary btn-lg" [disabled]="userForm.invalid">
                 <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                 <span *ngIf="!isLoading">{{ isEdit ? 'Update User' : 'Create User' }}</span>
@@ -81,8 +97,8 @@
               <th>Last Name</th>
               <th>Email</th>
               <th >Role</th>
-              <!-- <th>Active?</th> -->
-              <!-- <th class="text-center">Actions</th> -->
+              <th>Active?</th>
+              <th class="text-center">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -92,11 +108,14 @@
               <td [ngClass]="{ 'inactive-row': !user.isActive }">{{ user.lastName }}</td>
               <td [ngClass]="{ 'inactive-row': !user.isActive }">{{ user.email }}</td>
               <td [ngClass]="{ 'inactive-row': !user.isActive }">{{ user.roleName }}</td>
-              <!-- <td>{{ user.active }}</td> -->
-              <!-- <td class="text-center">
-                <button class="btn btn-warning btn-sm" (click)="editUser(user, i)">Edit</button>
-                <button class="btn btn-danger btn-sm ms-2" (click)="deleteUser(i)">Delete</button>
-              </td> -->
+              <td>{{ user.active }}</td>
+              <td class="text-center">
+                <button class="btn btn-primary btn-sm" (click)="editUser(user, $index)">
+                  <i class="fa fa-edit text-light me-1" [ngStyle]="{ 'font-size': '1.2rem' }"></i>
+                  Edit
+                </button>
+                <!-- <button class="btn btn-danger btn-sm ms-2" (click)="deleteUser($index)">Delete</button> -->
+              </td>
             </tr>}
           </tbody>
         </table>

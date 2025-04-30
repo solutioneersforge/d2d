@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { UserRegisterModeldto } from '../interfaces/user-register-modeldto';
 import { AuthenticationService } from '../services/authentication.service';
 import { JwtService } from '../services/jwt.service';
 import { ReceiptDetailsService } from '../services/receipt-details.service';
 import { RolesDTO } from '../interfaces/roles-dto';
 import { CompanyUserDTO } from '../interfaces/company-user-dto';
+import { UserModelDTO } from '../interfaces/user-model-dto';
 
 @Component({
   selector: 'app-company-user-registration',
   imports: [FormsModule, CommonModule, ReactiveFormsModule, FormsModule],
-  templateUrl: './company-user-registration.component.html',
+templateUrl: './company-user-registration.component.html',
   styleUrl: './company-user-registration.component.css'
 })
 export class CompanyUserRegistrationComponent implements OnInit {
@@ -24,6 +25,14 @@ export class CompanyUserRegistrationComponent implements OnInit {
   receiptDetailsService = inject(ReceiptDetailsService);
   rolesDTO: RolesDTO[] = [];
   companyUserDTO: CompanyUserDTO[] = [];
+  updatedUserId: string = '';
+  userModelDTO: UserModelDTO = {
+    userId: '',
+    firstName: '',
+    lastName: '',
+    roleId: '',
+    isActive: false
+  };
 
    userRegisterModeldto: UserRegisterModeldto = {
       companyName: '',
@@ -45,6 +54,7 @@ export class CompanyUserRegistrationComponent implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required],
+      isActive: [true, [Validators.required]],
       roleId: ['', Validators.required]
     }, {
       validator: this.passwordMatchValidator
@@ -55,11 +65,18 @@ export class CompanyUserRegistrationComponent implements OnInit {
     this.getFunctionAppGetCompanyUser();
   }
 
-  passwordMatchValidator(group: FormGroup): { [key: string]: boolean } | null {
+  resetUserForm(){
+    this.userForm.reset();
+    this.isEdit = false;
+    this.updatedUserId = "";
+    this.addEmailAndPasswordValidators();
+  }
+
+  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
     const password = group.get('password');
     const confirmPassword = group.get('confirmPassword');
     if (password && confirmPassword && password.value !== confirmPassword.value) {
-      return { 'passwordMismatch': true };
+      return { passwordMismatch: true };
     }
     return null;
   }
@@ -98,6 +115,34 @@ getFunctionAppGetCompanyUser(){
       return;
     }
 
+    if(this.isEdit){this.isLoading = true;
+      this.userModelDTO = {
+        firstName:  this.userForm.get('firstName')?.value || '',
+        isActive: this.userForm.get('isActive')?.value,
+        lastName :  this.userForm.get('lastName')?.value || '',
+        roleId :  this.userForm.get('roleId')?.value || '',
+        userId:  this.updatedUserId,
+      };
+      console.log(this.userModelDTO);
+      this.authService
+        .postFunctionAppUpdateUser(this.userModelDTO)
+        .subscribe({
+          next: (data) => {
+            if (data.isSuccess === true) {
+              alert(data.data);
+              this.userForm.reset();
+              this.getFunctionAppGetCompanyUser();
+            } else {
+              alert(data.data);
+            }
+          },
+          error: (error) => console.log(error),
+          complete: () => {this.isLoading = false; this.resetUserForm();}
+        });
+    }
+
+    else{
+
     this.userRegisterModeldto = {
       companyName : '',
       email : this.userForm.get('email')?.value || '',
@@ -124,7 +169,7 @@ getFunctionAppGetCompanyUser(){
         }
       },
       error: (error) => console.log(error),
-      complete: () => this.isLoading = false
+      complete: () => {this.isLoading = false; this.resetUserForm();}
     });
 
     if (this.isEdit && this.editIndex !== null) {
@@ -137,14 +182,57 @@ getFunctionAppGetCompanyUser(){
 
     this.userForm.reset();
   }
+}
 
   editUser(user: any, index: number) {
-    this.userForm.setValue(user);
+    this.userForm.patchValue({
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      roleId: user.roleId,
+      isActive: user.isActive
+    });
+    debugger;
     this.isEdit = true;
     this.editIndex = index;
+    this.updatedUserId = user.userId;
+    this.removeEmailAndPasswordValidators();
   }
 
   deleteUser(index: number) {
     this.users.splice(index, 1);
   }
+
+  removeEmailAndPasswordValidators() {
+    const emailControl = this.userForm.get('email');
+    const passwordControl = this.userForm.get('password');
+    const confirmPasswordControl = this.userForm.get('confirmPassword');
+  
+    emailControl?.clearValidators();
+    passwordControl?.clearValidators();
+    confirmPasswordControl?.clearValidators();
+  
+    emailControl?.updateValueAndValidity();
+    passwordControl?.updateValueAndValidity();
+    confirmPasswordControl?.updateValueAndValidity();
+  
+    // Optional: If you have a custom form-level validator like `passwordMatchValidator`,
+    // and you want to disable that too, remove or reassign it:
+    this.userForm.setValidators(null);
+    this.userForm.updateValueAndValidity();
+  }
+
+  addEmailAndPasswordValidators() {
+    this.userForm.get('email')?.setValidators([Validators.required, Validators.email]);
+    this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
+    this.userForm.get('confirmPassword')?.setValidators([Validators.required]);
+  
+    this.userForm.get('email')?.updateValueAndValidity();
+    this.userForm.get('password')?.updateValueAndValidity();
+    this.userForm.get('confirmPassword')?.updateValueAndValidity();
+    this.userForm.setValidators(this.passwordMatchValidator.bind(this));
+    this.userForm.updateValueAndValidity();
+  }
+  
+  
 }

@@ -152,5 +152,56 @@ namespace FunctionAppDoc2Data.AzureFunctions
                 });
             }
         }
+
+        [FunctionName("FunctionAppUpdateUser")]
+        public async Task<IActionResult> FunctionAppUpdateUser(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
+            ILogger log)
+        {
+            try
+            {
+                using StreamReader reader = new(req.Body);
+                string bodyStr = await reader.ReadToEndAsync();
+                var userModel = JsonConvert.DeserializeObject<UserModelDTO>(bodyStr);
+                
+                var tokenValidation = _validatedTokenService.ValidateTokenRequest(req);
+                if (!tokenValidation.isSuccess)
+                {
+                    return new OkObjectResult(new
+                    {
+                        Data = "You are not authorized to access the application",
+                        Message = "Failed",
+                        IsSuccess = false
+                    });
+                }
+
+                int result = await _appRegistrationRepository.UpdateUserInformation(userModel, tokenValidation.userId);
+                
+                if (result == 0)
+                {
+                    return new OkObjectResult(new
+                    {
+                        Data = "Data is not successfully added due to data already exists.",
+                        Message = "Failed",
+                        IsSuccess = false
+                    });
+                }
+                return new OkObjectResult(new
+                {
+                    Data = "Data Successfully Updated",
+                    Message = "Success",
+                    IsSuccess = true
+                });
+            }
+            catch (Exception ex)
+            {
+                return new OkObjectResult(new
+                {
+                    Message = ex.Message.ToString(),
+                    IsSuccess = false
+                });
+            }
+        }
+
     }
 }

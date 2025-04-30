@@ -5,6 +5,7 @@ import { UserRegisterModeldto } from '../interfaces/user-register-modeldto';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { UserValidateModeldto } from '../interfaces/user-validate-modeldto';
 import { JwtService } from './jwt.service';
+import { UserModelDTO } from '../interfaces/user-model-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -58,6 +59,10 @@ setIsLogged(isLoggedIn: boolean){
 
 postFunctionAppRegistration(userRegisterModeldto: UserRegisterModeldto) : Observable<any>{
   return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppRegistration`, userRegisterModeldto);
+}
+
+postFunctionAppUpdateUser(userModeldto: UserModelDTO) : Observable<any>{
+  return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppUpdateUser`, userModeldto);
 }
 
 postFunctionAppUserValidate(userValidateModeldto: UserValidateModeldto) : Observable<any>{
