@@ -51,7 +51,7 @@ jobs:
           name: node-app
       
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v3
         with:
           client-id: ${{ secrets.CLIENTID }} 
           tenant-id: ${{ secrets.TENANTID }}
