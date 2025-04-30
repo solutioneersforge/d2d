@@ -37,7 +37,7 @@ jobs:
           path: .
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: build
     environment:
       name: 'Production'
@@ -66,5 +66,4 @@ jobs:
           app-name: 'app-doc2data'
           slot-name: 'Production'
           package: .
-          enable-verbose-logging: true
           
