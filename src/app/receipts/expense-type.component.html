@@ -102,8 +102,7 @@
                         {{ subExpense.subCategoryName }}
                       </td>
                       <td>
-                        <i [ngClass]="subExpense.isActive ? 'fa fa-check-circle text-success' : 'fa fa-times-circle text-danger'" style="font-size: 2.0rem;"></i>
-
+                       {{subExpense.isActive === true ? 'Yes' : 'No'}}
 
                       </td>
                       <td style="width: 30px;">

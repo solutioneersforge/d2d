@@ -33,7 +33,7 @@ export class LoginComponent {
                   if(data.isSuccess === true){
                     this.authService.setIsLogged(true);
                     this.authService.setToken(data.data);
-                    this.router.navigate(['/reports']);
+                    this.router.navigate(['/home']);
                   } 
                   else{
                     alert(data.data);
