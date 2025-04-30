@@ -34,34 +34,34 @@
 
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active" (click)="collapseNavbar()">Home</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/about" routerLinkActive="active" (click)="collapseNavbar()">About</a></li>
-        <li class="nav-item"><a class="nav-link" routerLink="/contact" routerLinkActive="active" (click)="collapseNavbar()">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/home" routerLinkActive="active" (click)="collapseNavbar()"> <i class="fas fa-home me-1"></i> Home</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/about" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-info-circle me-1"></i> About</a></li>
+        <li class="nav-item"><a class="nav-link" routerLink="/contact" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-envelope me-1"></i> Contact</a></li>
 
         @if(isLoggedIn | async) {
-          <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active" (click)="collapseNavbar()">Dashboard</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a></li>
 
           @if((roleName | async)?.toLowerCase() !== 'approver') {
-            <li class="nav-item"><a class="nav-link" routerLink="/scan" routerLinkActive="active" (click)="collapseNavbar()">Scan</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/scan" routerLinkActive="active" (click)="collapseNavbar()"> <i class="fas fa-qrcode me-1"></i> Scan</a></li>
           }
 
           @if((roleName | async)?.toLowerCase() === 'manager' || (roleName | async)?.toLowerCase() === 'individual') {
-            <li class="nav-item"><a class="nav-link" routerLink="/accounts" routerLinkActive="active" (click)="collapseNavbar()">Accounts</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/accounts" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-users me-1"></i> Accounts</a></li>
           }
 
           @if((roleName | async)?.toLowerCase() === 'manager') {
-            <li class="nav-item"><a class="nav-link" routerLink="/users" routerLinkActive="active" (click)="collapseNavbar()">Users</a></li>
+            <li class="nav-item"><a class="nav-link" routerLink="/users" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-user-cog me-1"></i> Users</a></li>
           }
 
-          <li class="nav-item"><a class="nav-link" routerLink="/history" routerLinkActive="active" (click)="collapseNavbar()">History</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="/reports" routerLinkActive="active" (click)="collapseNavbar()">Reports</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/history" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-history me-1"></i> History</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/reports" routerLinkActive="active" (click)="collapseNavbar()"> <i class="fas fa-chart-bar me-1"></i> Reports</a></li>
         }
       </ul>
 
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         @if(!(isLoggedIn | async)) {
-          <li class="nav-item"><a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="collapseNavbar()">Login</a></li>
-          <li class="nav-item"><a class="nav-link" routerLink="/registertype" routerLinkActive="active" (click)="collapseNavbar()">Register</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/login" routerLinkActive="active" (click)="collapseNavbar()"> <i class="fas fa-sign-in-alt me-1"></i> Login</a></li>
+          <li class="nav-item"><a class="nav-link" routerLink="/registertype" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-user-plus me-1"></i> Register</a></li>
         }
         @else {
           @if((userName | async) !== '') {
@@ -75,7 +75,7 @@
             </li>
           }
           <li class="nav-item">
-            <a class="nav-link" routerLink="/login" ariaCurrentWhenActive="page" routerLinkActive="active" (click)="collapseNavbarLogout()">Logout</a>
+            <a class="nav-link" routerLink="/login" ariaCurrentWhenActive="page" routerLinkActive="active" (click)="collapseNavbarLogout()"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
           </li>
         }
       </ul>
