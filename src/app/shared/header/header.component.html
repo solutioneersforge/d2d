@@ -1,28 +1,67 @@
 <!-- Company Info Section -->
 @if((isLoggedIn | async) && ((companyName | async) !== '')) {
-<div class="container-fluid bg-light py-2 border-bottom">
-  <div class="row">
-    <div class="col-12">
-      <h4>
-        @if((companyName | async) !== '') {
-          {{ companyName | async }}
-        } 
-      </h4>
-    </div>
-    <div class="col-12 small">
-      Address: @if((companyAddress | async) !== '') {
-        {{ companyAddress | async }}
-      } 
-    </div>
-    <div class="col-12 small">
-      Email: @if((companyEmail | async) !== '') {
-        {{ companyEmail | async }} } / Tel No: @if((companyPhoneNumber | async) !== '') {
-          {{ companyPhoneNumber | async }} }
+  <div class="company-header bg-gradient-primary text-white py-3 shadow-sm">
+    <div class="container">
+      <div class="row align-items-center">
+        <!-- Company Logo Column (optional) -->
+        <div class="col-auto d-none d-md-block">
+          <div class="company-logo bg-white rounded-circle p-2 shadow">
+            <!-- Replace with your logo - either img or initials -->
+            @if((companyName | async) !== '') {
+              <span class="text-primary fw-bold fs-4">{{ (companyName | async)?.substring(0, 2)?.toUpperCase() }}</span>
+            } @else {
+              <i class="fas fa-building text-primary fs-4"></i>
+            }
+          </div>
+        </div>
+  
+        <!-- Company Info Column -->
+        <div class="col">
+          @if((companyName | async) !== '') {
+            <h2 class="company-name mb-1 fw-bold">
+              {{ companyName | async }}
+             
+            </h2>
+          }
+  
+          <div class="company-details d-flex flex-wrap gap-3 mt-2">
+            @if((companyAddress | async) !== '') {
+              <div class="detail-item">
+                <i class="fas fa-map-marker-alt me-2"></i>
+                <span>{{ companyAddress | async }}</span>
+              </div>
+            }
+            
+            @if((companyEmail | async) !== '') {
+              <div class="detail-item">
+                <i class="fas fa-envelope me-2"></i>
+                <a href="mailto:{{ companyEmail | async }}" class="text-white text-decoration-none">{{ companyEmail | async }}</a>
+              </div>
+            }
+            
+            @if((companyPhoneNumber | async) !== '') {
+              <div class="detail-item">
+                <i class="fas fa-phone-alt me-2"></i>
+                <a href="tel:{{ companyPhoneNumber | async }}" class="text-white text-decoration-none">{{ companyPhoneNumber | async }}</a>
+              </div>
+            }
+          </div>
+        </div>
+  
+        <!-- Action Buttons Column -->
+        @if((roleName | async)?.toLowerCase() === 'manager') {
+        <div class="col-auto">
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-light btn-sm rounded-pill px-3">
+              <i class="fas fa-edit me-1"></i> Edit
+            </button>
+          </div>
+        </div>
+      }
+      </div>
     </div>
   </div>
-</div>
 }
-
 
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">

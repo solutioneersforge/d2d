@@ -71,3 +71,43 @@
     padding: 10px 15px;
     display: block;
   }
+
+  /* Add to your global styles or component CSS */
+.company-header {
+  background: linear-gradient(135deg, #3a7bd5 0%, #00d2ff 100%);
+}
+
+.company-logo {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.company-name {
+  font-size: 1.5rem;
+  letter-spacing: 0.5px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.detail-item:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .company-details {
+    flex-direction: column;
+    gap: 0.5rem !important;
+  }
+  
+  .company-name {
+    font-size: 1.3rem;
+  }
+}
