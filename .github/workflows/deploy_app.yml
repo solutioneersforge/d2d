@@ -12,6 +12,7 @@ on:
 jobs:
   build:
     runs-on: windows-latest
+    environment: Production
     permissions:
       contents: read #This is required for actions/checkout
       id-token: write
@@ -54,7 +55,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_3CB6978EF68349CE9CB8C67797C8E89D }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_F7187C1EA81A4D44A0F213D243CCB72F }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F5FE292D2B8B4EA7AD180B46688F0ACF }}
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v3
