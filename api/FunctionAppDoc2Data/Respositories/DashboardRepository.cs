@@ -108,20 +108,23 @@ public class DashboardRepository : IDashboardRepository
                 var now = DateTime.Now;
                 int currentYear = now.Year;
                 int currentMonth = now.Month;
-
+                DateTime today = DateTime.Today;
                 var receiptsThisMonth = context.Receipts
-                    .Where(r => r.ReceiptDate.Year == currentYear && r.ReceiptDate.Month == currentMonth 
+                    .Where(r => r.ReceiptDate.Year == currentYear && r.ReceiptDate.Month <= currentMonth 
                      && listOfUserId.Contains(r.UserId));
 
                 decimal totalSpendingThisMonth = receiptsThisMonth.Sum(r => (decimal?)r.TotalAmount) ?? 0;
 
                 int daysPassed = Math.Max(1, now.Day);
+                int monthsTillToday = today.Month;
+                DateTime startOfYear = new DateTime(currentYear, 1, 1);
+                int daysTillToday = (today - startOfYear).Days + 1;
 
                 var receiptsTillToday = context.Receipts.Where(r => r.ReceiptDate <= now && listOfUserId.Contains(r.UserId));
                 dashboard.TotalSpendingTillToday = receiptsTillToday.Sum(r => (decimal?)r.TotalAmount) ?? 0;
 
-                dashboard.AvgMonSpending = totalSpendingThisMonth;
-                dashboard.AvgDailySpending = totalSpendingThisMonth / daysPassed;
+                dashboard.AvgMonSpending = totalSpendingThisMonth / monthsTillToday;
+                dashboard.AvgDailySpending = totalSpendingThisMonth / daysTillToday;
 
 
                 dashboard.CurrentYear = currentYear;

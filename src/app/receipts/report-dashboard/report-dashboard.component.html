@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container ">
   <!-- Row for the heading -->
   <div class="row text-center mb-4">
     <!-- <div class="col-12">
@@ -17,7 +17,7 @@
                 {{ totalSpendingTillToday | currency: 'TTD ' }}
               </h1>
               <p class="text-center">
-                for the year of {{ currentDate | date: 'dd MMMM yyyy' }}
+                as of {{ currentDate | date: 'dd MMMM yyyy' }}
               </p>
             </div>
           </div>
@@ -29,7 +29,7 @@
               <h1 class="fw-bold">
                 {{ avgMonthlySpending | currency: 'TTD ' }}
               </h1>
-              <p class="text-center">for the year of {{ currentYear }}</p>
+              <p class="text-center">as of {{ currentYear }}</p>
             </div>
           </div>
           <div class="col-12 col-md-4">
