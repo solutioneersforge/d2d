@@ -75,7 +75,7 @@ public class DashboardRepository : IDashboardRepository
 
 
                 var expenseReceipts = await context.Receipts
-                    .Where(m => m.ReceiptDate.Year == parsedYear && m.ReceiptDate.Month == parsedMonth && m.UserId == userId)
+                    .Where(m => m.ReceiptDate.Year == parsedYear && m.ReceiptDate.Month == parsedMonth && listOfUserId.Contains(m.UserId))
                         .Include(m => m.ReceiptItems)
                             .ThenInclude(m => m.SubCategory)
                                 .ThenInclude(m => m.Category)
