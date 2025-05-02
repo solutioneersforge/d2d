@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -126,8 +127,30 @@ public class DashboardRepository : IDashboardRepository
                 dashboard.AvgMonSpending = totalSpendingThisMonth / monthsTillToday;
                 dashboard.AvgDailySpending = totalSpendingThisMonth / daysTillToday;
 
+                var merchantChart = await context.Receipts
+                                        .Where(r => r.ReceiptDate <= now && listOfUserId.Contains(r.UserId))
+                                        .GroupBy(r => r.MerchantId)
+                                         .Select(m => new MerchantChartDTO()
+                                         {
+                                             MerchantName = m.FirstOrDefault().Merchant.Name,
+                                             Total = m.Sum(r => r.TotalAmount ?? 0)
+                                         }).ToListAsync();
+
+
+
+                var merchantMonthlyChart = await context.Receipts
+                                        .Where(r => r.ReceiptDate <= now && listOfUserId.Contains(r.UserId))
+                                        .GroupBy(r => new { Month = r.ReceiptDate.Month})
+                                         .Select(m => new MerchantMonthlyChartDTO()
+                                         {
+                                             MonthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(m.Key.Month),
+                                             Total = m.Sum(r => r.TotalAmount ?? 0)
+                                         }).ToListAsync();
+
 
                 dashboard.CurrentYear = currentYear;
+                dashboard.MerchantCharts = merchantChart;
+                dashboard.MerchantMonthlyCharts = merchantMonthlyChart;
                 return dashboard;
             }
         }

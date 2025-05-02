@@ -5,14 +5,87 @@ import { MerchantDashboardDTO } from '../../interfaces/merchant-dashboard-dto';
 import { CommonModule } from '@angular/common';
 import { BsDatepickerModule, BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { FormsModule } from '@angular/forms';
+import { jqxChartModule } from 'jqwidgets-ng/jqxchart';
 
 @Component({
   selector: 'app-report-dashboard',
-  imports: [CommonModule, BsDatepickerModule, FormsModule ],
+  imports: [CommonModule, BsDatepickerModule, FormsModule,jqxChartModule ],
   templateUrl: './report-dashboard.component.html',
   styleUrl: './report-dashboard.component.css'
 })
 export class ReportDashboardComponent implements OnInit {
+  sampleDataMerchant: any;
+  sampleDataMonthly : any;
+  isLoading : boolean = false;
+
+padding: any = { left: 20, top: 5, right: 20, bottom: 5 };
+titlePadding: any = { left: 90, top: 0, right: 0, bottom: 10 };
+
+xMonthlyAxis: any =
+    {
+        dataField: 'monthName',
+        gridLines: { visible: false },
+        flip: false,
+        labels: {
+          angle: -45, // optional: rotate to fit better
+          step: 1     // force showing every label
+      }
+    };
+
+xAxis: any =
+    {
+        dataField: 'merchantName',
+        gridLines: { visible: false },
+        flip: false,
+        labels: {
+          visible: false
+        }
+        
+    };
+getWidth(): any {
+    if (document.body.offsetWidth < 850) {
+        return '90%';
+    }
+    return 850;
+}
+valueAxis: any =
+    {
+        flip: false,
+        labels: {
+            visible: true,
+            formatFunction: (value: string) => {
+                return parseInt(value);
+            }
+        }
+    };
+seriesGroups: any[] =
+    [
+        {
+            type: 'column',
+            orientation: 'vertical',
+            columnsGapPercent: 50,
+            toolTipFormatSettings: { thousandsSeparator: ',' },
+            series: [
+                { dataField: 'total', displayText: 'Total Receipt Amount' }
+            ]
+        }
+    ];
+
+    seriesMonthlyGroups: any[] =
+    [
+        {
+            type: 'column',
+            orientation: 'vertical',
+            columnsGapPercent: 50,
+            toolTipFormatSettings: { thousandsSeparator: ',' },
+            series: [
+                { dataField: 'total', displayText: 'Total Receipt Amount' }
+            ]
+        }
+    ];
+
+
+
   selectedDate: Date | null = null;
   currentYear: number = 0;
   avgMonthlySpending: number = 0;
@@ -73,7 +146,6 @@ export class ReportDashboardComponent implements OnInit {
   merchantDashboardDTO: MerchantDashboardDTO[] = [];
 
   getExpenseSubCategoriesDTO() {
-    console.warn(this.selectedYear, this.selectedMonth);
     this.receiptDetailsService
       .getFunctionAppDashboardReport(this.selectedYear, this.selectedMonth)
       .subscribe({next: (data) => {
@@ -84,9 +156,11 @@ export class ReportDashboardComponent implements OnInit {
         this.avgDailySpending = data.data.avgDailySpending;
         this.totalSpendingTillToday = data.data.totalSpendingTillToday;
         this.currentDate = data.data.currentDate;
+        this.sampleDataMerchant = data.data.merchantCharts;
+        this.sampleDataMonthly = data.data.merchantMonthlyCharts;
       },
       error: (error) => console.log(error),
-      complete : () => console.log('Completed')
+      complete : () => this.isLoading = true
     });
   }
 }

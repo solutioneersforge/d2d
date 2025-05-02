@@ -11,4 +11,6 @@ public class DashboardDTO
     public int CurrentYear { get; set; }
     public decimal TotalSpendingTillToday { get; set; }
     public DateTime CurrentDate { get; private set; } = DateTime.UtcNow;
+    public IEnumerable<MerchantMonthlyChartDTO> MerchantMonthlyCharts { get; set; }
+    public IEnumerable<MerchantChartDTO> MerchantCharts { get; set; }
 }
