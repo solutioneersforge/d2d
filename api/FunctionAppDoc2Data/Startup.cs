@@ -50,6 +50,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddScoped<IRolesRepository, RolesRepository>();
         builder.Services.AddScoped<ICompanyUserRepository, CompanyUserRepository>();
         builder.Services.AddScoped<IVerificationUserRepository, VerificationUserRepository>();
+        builder.Services.AddScoped<IForgetPasswordLinkRepository, ForgetPasswordLinkRepository>();
         builder.Services.AddDbContext<DocToDataDBContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")), ServiceLifetime.Scoped);
     }

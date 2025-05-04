@@ -23,10 +23,14 @@ namespace FunctionAppDoc2Data.DataContext
         public bool IsEmailConfirmed { get; set; }
         public bool IsTwoFactorEnabled { get; set; }
         public int? FailedLoginAttempts { get; set; }
+        public Guid? ForgetPasswordKey { get; set; }
+        public int? ForgetPasswordRetry { get; set; }
         public DateTime? LockoutEnd { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public DateTime? LastLoginAt { get; set; }
         public bool? IsActive { get; set; }
+        public DateTime? ExpiredForgetPasswordKey { get; set; }
+        public bool? IsExpiredKeyUsed { get; set; }
 
         public virtual ICollection<CompanyMember> CompanyMembers { get; set; }
         public virtual ICollection<ExpenseCategory> ExpenseCategories { get; set; }

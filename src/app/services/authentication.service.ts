@@ -7,6 +7,7 @@ import { UserValidateModeldto } from '../interfaces/user-validate-modeldto';
 import { JwtService } from './jwt.service';
 import { UserModelDTO } from '../interfaces/user-model-dto';
 import { CompanyUpdateDTO } from '../interfaces/company-update-dto';
+import { ResetPasswordDTO } from '../interfaces/reset-password-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -122,6 +123,14 @@ get getRoleName(): string{
 
 postFunctionAppUserVerification(verificationKey: string) : Observable<any>{
   return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppUserVerification?verificationKey=${verificationKey}`,null);
+}
+
+postFunctionAppUpdateResetPassword(resetPassword: ResetPasswordDTO) : Observable<any>{
+  return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppUpdateResetPassword`, resetPassword);
+}
+
+getFunctionAppForgetPasswordLink(resetPasswordEmail: string): Observable<any> {
+  return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppForgetPasswordLink?resetPasswordEmail=`+ resetPasswordEmail);
 }
 
 }

@@ -34,7 +34,7 @@ public static class UserMapper
         }
     }
 
-    private static (byte[] hash, byte[] salt) HashPassword(string password)
+    public static (byte[] hash, byte[] salt) HashPassword(string password)
     {
         using var hmac = new HMACSHA512();
         return (hmac.ComputeHash(Encoding.UTF8.GetBytes(password)), hmac.Key);

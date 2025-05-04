@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-forget-password',
@@ -10,23 +11,26 @@ import { RouterModule } from '@angular/router';
 })
 export class ForgetPasswordComponent {
   email: string = '';
-  oldPassword: string = '';
-  newPassword: string = '';
-  confirmPassword: string = '';
   loading: boolean = false;
   message: string = '';
+
+  authenticationService = inject(AuthenticationService);
 
   constructor() { }
 
   onSubmit() {
     if (!this.email) return;
-
-    this.loading = true;
-    this.message = '';
-
-    setTimeout(() => {
-      this.loading = false;
-      this.message = "If this email exists, you'll receive a password reset link.";
-    }, 2000);
+    this.authenticationService
+            .getFunctionAppForgetPasswordLink(this.email)
+            .subscribe({
+              next: (data) =>{
+                if(data.isSuccess == false){
+                  alert(data.data)
+                }
+                else{
+                  alert(data.data);
+                }
+              }
+            })
   }
 }

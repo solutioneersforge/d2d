@@ -512,6 +512,8 @@ namespace FunctionAppDoc2Data.DataContext
                     .IsRequired()
                     .HasMaxLength(255);
 
+                entity.Property(e => e.ExpiredForgetPasswordKey).HasColumnType("datetime");
+
                 entity.Property(e => e.FailedLoginAttempts).HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.FirstName)

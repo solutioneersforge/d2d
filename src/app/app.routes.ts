@@ -18,12 +18,14 @@ import { RegisterTypeComponent } from './authentication/register-type.component'
 import { CompanyRegisterComponent } from './authentication/company-register.component';
 import { CompanyUserRegistrationComponent } from './authentication/company-user-registration.component';
 import { VerificationUserComponent } from './authentication/verification-user.component';
+import { ForgetPasswordLinkComponent } from './authentication/forget-password-link.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
   { path: 'scan', component: ReceiptProcessComponent },
+  { path: 'resetpassword', component: ForgetPasswordLinkComponent },
   { path: 'dashboard', component: ReceiptProcessDashboardComponent, canActivate: [AuthGuardService]  },
   { path: 'receiptverification/:id', component: ReceiptVerificationComponent, canActivate: [AuthGuardService] },
   { path: 'receiptModification/:id', component: ReceiptModificationComponent, canActivate: [AuthGuardService] },
