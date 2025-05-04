@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace FunctionAppDoc2Data.Services;
 public  class ForgetPasswordMailLink
 {
-    public async Task<bool> SendForgetPasswordLink(string emailAddress, Guid forgetPasswordLink)
+    public async Task<bool> SendForgetPasswordLink(string emailAddress, Guid forgetPasswordLink, string userName)
     {
         string verificationUrl = $"https://app-doc2data.azurewebsites.net/resetpassword?forgetpasswordtoken={forgetPasswordLink}";
         //string verificationUrl = $"http://localhost:4200/resetpassword?forgetpasswordtoken={forgetPasswordLink}";
@@ -27,7 +27,7 @@ public  class ForgetPasswordMailLink
               <td style=""padding: 40px; text-align: center;"">
                 <h2 style=""color: #333; margin-bottom: 20px;"">Reset Your Password</h2>
                 <p style=""font-size: 16px; color: #555; margin-bottom: 30px;"">
-                  Hello, <br><br>
+                  Hello, ""{{user_name}}"" <br><br>
                   We received a request to reset the password associated with your account. If you made this request, you can reset your password using the button below.
                 </p>
                 <a href=""{{reset_link}}""
@@ -54,10 +54,11 @@ public  class ForgetPasswordMailLink
 </html>
 ";
         string emailBody = body.Replace("{reset_link}", verificationUrl);
+        emailBody = body.Replace("{user_name}", emailBody);
         var mailerSendRequest = new MailerSendRequest(
                 From: new("noreply@solutioneersforge.com", "Solutioneers Forge"),
                 To: new MailerSendTo[] { new MailerSendTo(emailAddress, emailAddress) },
-                Subject: "Email Verification",
+                Subject: "Reset Password",
                 Text: emailBody,
                 Html: emailBody
             );

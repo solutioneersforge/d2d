@@ -53,7 +53,7 @@ public class ForgetPasswordLinkRepository : IForgetPasswordLinkRepository
 
 
         var forgetPasswordMailLink = new ForgetPasswordMailLink();
-        bool isSuccess = await forgetPasswordMailLink.SendForgetPasswordLink(emailAddress, forgetPasswordKey);
+        bool isSuccess = await forgetPasswordMailLink.SendForgetPasswordLink(emailAddress, forgetPasswordKey, $"{userObject.FirstName} {userObject.LastName}");
 
         return 1;
     }
