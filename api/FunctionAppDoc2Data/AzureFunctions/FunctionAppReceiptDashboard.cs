@@ -40,7 +40,7 @@ namespace FunctionAppDoc2Data.AzureFunctions
 
                 return new OkObjectResult(new
                 {
-                    Data = _receiptDashbboardRepository.GetReceiptDashboard(tokenValidation.userId),
+                    Data = await _receiptDashbboardRepository.GetReceiptDashboard(tokenValidation.userId),
                     Message = "Success",
                     IsSuccess = true
                 });

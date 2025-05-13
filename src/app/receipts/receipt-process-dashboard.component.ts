@@ -30,7 +30,7 @@ export class ReceiptProcessDashboardComponent implements OnInit {
             .subscribe({
               next: (data : any) => {
                 this.isLoading = true;
-                this.receiptDashboardDTO = data.data.result
+                this.receiptDashboardDTO = data.data
               },
               error: (error) => console.error(error),
               complete: () => this.isLoading = false
