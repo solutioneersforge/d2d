@@ -14,4 +14,10 @@ export interface ReceiptHistoryDTO {
   statusId: number;
   statusName: string;
   serviceChargeAmount?: number;
+  approvedBy?: string;
+  approvedOn?: Date;
+  modifiedBy?: string;
+  modifiedOn?: Date;
+  createdBy: string;
+  createdOn? : Date;
 }

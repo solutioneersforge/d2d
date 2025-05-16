@@ -283,6 +283,11 @@ namespace FunctionAppDoc2Data.DataContext
 
                 entity.Property(e => e.UpdatedOn).HasColumnType("datetime");
 
+                entity.HasOne(d => d.ApprovedByNavigation)
+                    .WithMany(p => p.ReceiptApprovedByNavigations)
+                    .HasForeignKey(d => d.ApprovedBy)
+                    .HasConstraintName("FK_Receipts_Users2");
+
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.Receipts)
                     .HasForeignKey(d => d.CountryId)
@@ -300,6 +305,11 @@ namespace FunctionAppDoc2Data.DataContext
                     .HasForeignKey(d => d.MerchantId)
                     .HasConstraintName("FK_Receipts_Merchants");
 
+                entity.HasOne(d => d.ModifiedByNavigation)
+                    .WithMany(p => p.ReceiptModifiedByNavigations)
+                    .HasForeignKey(d => d.ModifiedBy)
+                    .HasConstraintName("FK_Receipts_Users1");
+
                 entity.HasOne(d => d.PaymentType)
                     .WithMany(p => p.Receipts)
                     .HasForeignKey(d => d.PaymentTypeId)
@@ -313,7 +323,7 @@ namespace FunctionAppDoc2Data.DataContext
                     .HasConstraintName("FK_Receipts_Status");
 
                 entity.HasOne(d => d.User)
-                    .WithMany(p => p.Receipts)
+                    .WithMany(p => p.ReceiptUsers)
                     .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Receipts_Users");

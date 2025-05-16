@@ -28,7 +28,13 @@ public static class ReceiptHistoryMapper
             SubTotalAmount = m.SubTotal,
             MerchantName = m.Merchant.Name,
             TaxAmount = m.TaxAmount,
-            TotalAmount = m.TotalAmount
+            TotalAmount = m.TotalAmount,
+            CreatedBy = m.User.FirstName,
+            ApprovedBy = m.ApprovedByNavigation != null ? $"{m.ApprovedByNavigation.FirstName} {m.ApprovedByNavigation.LastName}" : "",
+            ApprovedOn = m.ApprovedOn,
+            ModifiedBy = m.ModifiedByNavigation != null ? $"{m.ModifiedByNavigation.FirstName} {m.ModifiedByNavigation.LastName}" : "",
+            ModifiedOn = m.UpdatedOn,
+            CreatedOn = m.CreatedOn
         });
     }
 }

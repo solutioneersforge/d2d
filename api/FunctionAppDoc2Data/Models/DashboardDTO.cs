@@ -13,4 +13,7 @@ public class DashboardDTO
     public DateTime CurrentDate { get; private set; } = DateTime.UtcNow;
     public IEnumerable<MerchantMonthlyChartDTO> MerchantMonthlyCharts { get; set; }
     public IEnumerable<MerchantChartDTO> MerchantCharts { get; set; }
+    public bool IsTotalSpendingTillTodayIncrease { get; set; }
+    public bool IsAvgMonSpendingIncrease { get; set; }
+    public bool IsAvgDailySpendingIncrease { get; set; }
 }

@@ -40,6 +40,9 @@ public class ReceiptHistoryRepository : IReceiptHistoryRepository
             .Where(m => listOfUserId.Contains(m.UserId))
             .Include(m => m.Merchant)
             .Include(m => m.Status)
+             .Include(m => m.User)
+             .Include(m => m.ApprovedByNavigation)
+             .Include(m => m.ModifiedByNavigation)
             .AsNoTracking()
             .ToList();
 

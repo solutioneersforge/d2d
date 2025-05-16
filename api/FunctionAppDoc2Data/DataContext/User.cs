@@ -9,7 +9,9 @@ namespace FunctionAppDoc2Data.DataContext
         {
             CompanyMembers = new HashSet<CompanyMember>();
             ExpenseCategories = new HashSet<ExpenseCategory>();
-            Receipts = new HashSet<Receipt>();
+            ReceiptApprovedByNavigations = new HashSet<Receipt>();
+            ReceiptModifiedByNavigations = new HashSet<Receipt>();
+            ReceiptUsers = new HashSet<Receipt>();
         }
 
         public Guid UserId { get; set; }
@@ -34,6 +36,8 @@ namespace FunctionAppDoc2Data.DataContext
 
         public virtual ICollection<CompanyMember> CompanyMembers { get; set; }
         public virtual ICollection<ExpenseCategory> ExpenseCategories { get; set; }
-        public virtual ICollection<Receipt> Receipts { get; set; }
+        public virtual ICollection<Receipt> ReceiptApprovedByNavigations { get; set; }
+        public virtual ICollection<Receipt> ReceiptModifiedByNavigations { get; set; }
+        public virtual ICollection<Receipt> ReceiptUsers { get; set; }
     }
 }

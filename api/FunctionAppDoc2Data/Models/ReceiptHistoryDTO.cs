@@ -18,4 +18,10 @@ public class ReceiptHistoryDTO
     public int StatusId { get; set; }
     public string StatusName { get; set; }
     public decimal? ServiceChargeAmount { get; set; }
+    public string CreatedBy { get; set; }
+    public DateTime CreatedOn { get; set; }
+    public string ApprovedBy { get; set; }
+    public DateTime? ApprovedOn { get; set; }
+    public string ModifiedBy { get; set; }
+    public DateTime? ModifiedOn { get; set; }
 }
