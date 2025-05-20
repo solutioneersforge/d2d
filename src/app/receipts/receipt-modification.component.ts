@@ -11,6 +11,7 @@ import { ReceiptItemsApprovalDTO } from '../interfaces/receipt-items-approval-dt
 import { Modal } from 'bootstrap';
 import { UnitOfMeasuresDTO } from '../interfaces/unit-of-measures-dto';
 import { AuthenticationService } from '../services/authentication.service';
+import { PaymentTypeDto } from '../interfaces/payment-type-dto';
 
 @Component({
   selector: 'app-modify-receipt-details',
@@ -27,11 +28,13 @@ export class ReceiptModificationComponent implements OnInit {
   @ViewChild('myModal') modalElement!: ElementRef;
   unitOfMeasuresDTO: UnitOfMeasuresDTO[] = [];
   modalInstance: Modal | null = null;
+  isStock?: boolean | null;
    authenticationService = inject(AuthenticationService);
   constructor(private activatedRoute: ActivatedRoute, private router: Router){
   }
 
   ngOnInit() {
+     this.getPaymentTypeDTO();
     this.activatedRoute.params.subscribe(data => {
       this.receiptId = data["id"];
       this.getFunctionAppReceiptVerification(data["id"]);
@@ -39,6 +42,12 @@ export class ReceiptModificationComponent implements OnInit {
 
     
   }
+
+    getPaymentTypeDTO(){
+        this.receiptDetailsService.getPaymentTypeDTO().subscribe(data => {
+          this.paymentTypeDto = data.data;
+        });
+      }
 
   getFunctionAppUnitOfMeasureDTO() {
     this.receiptDetailsService
@@ -60,6 +69,7 @@ export class ReceiptModificationComponent implements OnInit {
   isSaveButtonEnable: boolean = false;
   receiptApprovalDTO!: ReceiptApprovalDTO;
   receiptItemsApprovalDTO: ReceiptItemsApprovalDTO[] = [];
+  paymentTypeDto: PaymentTypeDto[] =[];
   
   receiptVerificationMaster: ReceiptVerificationMasterDTO = {
     receiptId: '',
@@ -80,7 +90,9 @@ export class ReceiptModificationComponent implements OnInit {
     image : '',
     originalFileName: '',
     isImage: true,
-    receiptVerificationItems: []
+    receiptVerificationItems: [],
+    paymentTypeId: null,
+    isStock: null
   };
   
   receiptFormGroup = new FormGroup({
@@ -96,7 +108,8 @@ export class ReceiptModificationComponent implements OnInit {
     subTotal: new FormControl(this.receiptVerificationMaster.subTotal, []),
     taxAmount: new FormControl(this.receiptVerificationMaster.taxAmount,[]),
     total: new FormControl(this.receiptVerificationMaster.total,[]),
-    imageBase64 : new FormControl(this.receiptVerificationMaster.image,[])
+    imageBase64 : new FormControl(this.receiptVerificationMaster.image,[]),
+    paymentType: new FormControl(this.receiptVerificationMaster.paymentTypeId,[])
   });
 
   getExpenseSubCategoriesDTO(){
@@ -112,6 +125,7 @@ export class ReceiptModificationComponent implements OnInit {
             console.warn(this.receiptVerificationMaster);
             this.isImageLoad = this.receiptVerificationMaster.isImage;
             this.imageBase64 = this.receiptVerificationMaster.image;
+            this.isStock = this.receiptVerificationMaster.isStock;
             this.receiptFormGroup.setValue({
               vendorAddress : this.receiptVerificationMaster.vendorAddress,
               customerAddress: this.receiptVerificationMaster.customerAddress,
@@ -126,6 +140,7 @@ export class ReceiptModificationComponent implements OnInit {
               vendorName: this.receiptVerificationMaster.vendorName,
               vendorPhone: this.receiptVerificationMaster.vendorPhone,
               imageBase64: this.receiptVerificationMaster.image,
+              paymentType: this.receiptVerificationMaster.paymentTypeId
             });
             this.receiptVerificationMaster.receiptVerificationItems = data.data.receiptVerificationItems;
           },
@@ -172,6 +187,7 @@ export class ReceiptModificationComponent implements OnInit {
         taxAmount: this.receiptFormGroup.value.taxAmount ?? 0,
         totalAmount: this.receiptFormGroup.value.total ?? 0,
         userId: this.authenticationService.getUserId,
+        paymentTypeId: this.receiptFormGroup.value.paymentType ?? null,
         receiptItemsApproval :  this.getItems()
      }
 

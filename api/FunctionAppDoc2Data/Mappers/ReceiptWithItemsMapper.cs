@@ -1,4 +1,5 @@
 ﻿using FunctionAppDoc2Data.DataContext;
+using FunctionAppDoc2Data.Enums;
 using FunctionAppDoc2Data.Models;
 using System;
 using System.Collections.Generic;
@@ -21,11 +22,11 @@ public static class ReceiptWithItemsMapper
             Discount = 0.00M,
             MerchantId = 100,
             OtherCharge = 0.00M,
-            PaymentTypeId = 1,
+            PaymentTypeId = receiptMaster.PaymentTypeId == 0 || String.IsNullOrWhiteSpace(receiptMaster.PaymentTypeId.ToString()) ? null : receiptMaster.PaymentTypeId.Value,
             ReceiptDate = ValidateDate(receiptMaster.InvoiceDate),
             ReceiptNumber = receiptMaster.InvoiceNumber,
             ServiceCharge = 0.00M,
-            StatusId = 1,
+            StatusId = (int)StatusEnum.OPEN,
             SubTotal = receiptMaster.SubTotal,
             ReceiptId = Guid.NewGuid(),
             TaxAmount = receiptMaster.TaxAmount,
@@ -35,7 +36,8 @@ public static class ReceiptWithItemsMapper
             CustomerAddress = receiptMaster.CustomerAddress,
             CustomerName = receiptMaster.CustomerName,
             CustomerPhone = receiptMaster.CustomerPhone,
-            ReceiptItems = GetReceiptItems(receiptMaster.ReceiptItemDTOs)
+            ReceiptItems = receiptMaster.IsStock.HasValue && receiptMaster.IsStock.Value ? GetReceiptItems(receiptMaster.ReceiptItemDTOs) : null,
+            IsStock = receiptMaster.IsStock
         };
     }
 

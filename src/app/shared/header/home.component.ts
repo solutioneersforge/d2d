@@ -52,4 +52,8 @@ authService = inject(AuthenticationService);
   goToReports() {
     this.router.navigate(['/reports']);
   }
+
+  goToMerchant(){
+    this.router.navigate(['/merchant']);
+  }
 }

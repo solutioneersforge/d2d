@@ -10,6 +10,7 @@ import { ReceiptItemDTO } from '../../interfaces/receipt-item-dto';
 import { NotificationService } from '../../services/notification.service';
 import { NotificationComponent } from '../../shared/header/notification.component';
 import { AuthenticationService } from '../../services/authentication.service';
+import { PaymentTypeDto } from '../../interfaces/payment-type-dto';
 
 @Component({
   selector: 'app-receipt-process',
@@ -19,13 +20,16 @@ import { AuthenticationService } from '../../services/authentication.service';
 })
 export class ReceiptProcessComponent implements OnInit {
   ngOnInit(): void {
-    
+    this.getPaymentTypeDTO();
     this.getExpenseSubCategoriesDTO();
   }
   imageUrl: string | ArrayBuffer | null = null;
   previewImage: string | ArrayBuffer | null = null;
   receiptItemDTOs: ReceiptItemDTO[] = [];
   isSaveButtonEnable : boolean = false;
+  paymentTypeDto: PaymentTypeDto[] =[];
+  isStocked: boolean = false;
+  isStockedDisabled : boolean = false;
 
   receiptMasterDTO: ReceiptMasterDTO = {
     userId: null,
@@ -41,7 +45,9 @@ export class ReceiptProcessComponent implements OnInit {
     subTotal: null,
     taxAmount: null,
     total: null,
-    ReceiptItemDTOs: null
+    ReceiptItemDTOs: null,
+    paymentTypeId: null,
+    isStock: null
   };
   @ViewChild('fileInput') fileInput!: ElementRef;
   isLoading: boolean = true;
@@ -175,6 +181,7 @@ export class ReceiptProcessComponent implements OnInit {
                     vendorPhone: this.receiptDetails.vendorPhone
                   });
                   this.isSaveButtonEnable = true;
+                  this.isStockedDisabled = true;
               } else{
               }},
               error: (data) => {console.log(data); this.isSaveButtonEnable = false;},
@@ -197,6 +204,7 @@ export class ReceiptProcessComponent implements OnInit {
       }
 
       saveReceipt(){
+        const paymentTypeValue = this.receiptFormGroup.value.paymentType;
         this.isSaveLoader = true;
         this.receiptMasterDTO.customerAddress = this.receiptFormGroup.value.customerAddress ?? null;
         this.receiptMasterDTO.customerName = this.receiptFormGroup.value.customerName ?? null;
@@ -211,6 +219,8 @@ export class ReceiptProcessComponent implements OnInit {
         this.receiptMasterDTO.vendorEmail = this.receiptFormGroup.value.vendorEmail ?? null;
         this.receiptMasterDTO.vendorName = this.receiptFormGroup.value.vendorName ?? null;
         this.receiptMasterDTO.vendorPhone = this.receiptFormGroup.value.vendorPhone ?? null;
+        this.receiptMasterDTO.paymentTypeId  = paymentTypeValue !== null ? Number(paymentTypeValue) : null;
+        this.receiptMasterDTO.isStock = this.isStocked;
         this.receiptItemDTOs = [];
         this.receiptDetails.receiptItems.forEach(data => {
             this.receiptItemDTOs?.push({
@@ -255,8 +265,17 @@ export class ReceiptProcessComponent implements OnInit {
         this.previewImage = null;
         this.isLoading = false;this.previewImage = null;this.previewPdf = null;
         if (this.fileInput) {
-          this.fileInput.nativeElement.value = ''; // Clear the input
+          this.fileInput.nativeElement.value = ''; 
         }
+        this.isStockedDisabled = false;
+        this.isStocked = false;
+      }
+
+
+       getPaymentTypeDTO(){
+        this.receiptDetailsService.getPaymentTypeDTO().subscribe(data => {
+          this.paymentTypeDto = data.data;
+        });
       }
 
       

@@ -19,6 +19,7 @@ import { CompanyRegisterComponent } from './authentication/company-register.comp
 import { CompanyUserRegistrationComponent } from './authentication/company-user-registration.component';
 import { VerificationUserComponent } from './authentication/verification-user.component';
 import { ForgetPasswordLinkComponent } from './authentication/forget-password-link.component';
+import { MerchantDetailsComponent } from './receipts/merchant-details.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -39,6 +40,7 @@ export const routes: Routes = [
   { path: 'accounts', component: ExpenseTypeComponent, canActivate: [AuthGuardService] },
   { path: 'reports', component: ReportDashboardComponent, canActivate: [AuthGuardService]},
   { path: 'users', component: CompanyUserRegistrationComponent, canActivate: [AuthGuardService]},
+  { path: 'merchant', component: MerchantDetailsComponent, canActivate: [AuthGuardService]},
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: PagenotfoundComponent },
 ];

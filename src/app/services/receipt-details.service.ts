@@ -72,4 +72,12 @@ export class ReceiptDetailsService {
   getFunctionAppGetCompanyUser(): Observable<any> {
     return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppGetCompanyUser`);
   }
+
+  getPaymentTypeDTO() : Observable<any>{
+    return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppPaymentType`);
+  }
+
+  getMerchantDetailsDTO() : Observable<any>{
+    return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppMerchantDetails`);
+  }
 }

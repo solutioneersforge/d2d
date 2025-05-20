@@ -20,4 +20,6 @@ public class ReceiptMasterDTO
     public string ImagePath { get; set; }
     public string OriginalFileName { get; set; }
     public List<ReceiptItemDTO> ReceiptItemDTOs { get; set; }
+    public int? PaymentTypeId { get; set; }
+    public bool? IsStock { get; set; }
 }

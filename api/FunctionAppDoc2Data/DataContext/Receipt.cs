@@ -18,7 +18,7 @@ namespace FunctionAppDoc2Data.DataContext
         public DateTime ReceiptDate { get; set; }
         public int? MerchantId { get; set; }
         public int CountryId { get; set; }
-        public int PaymentTypeId { get; set; }
+        public int? PaymentTypeId { get; set; }
         public int CurrencyId { get; set; }
         public decimal? TotalAmount { get; set; }
         public decimal? Discount { get; set; }
@@ -35,6 +35,7 @@ namespace FunctionAppDoc2Data.DataContext
         public Guid? ModifiedBy { get; set; }
         public Guid? ApprovedBy { get; set; }
         public DateTime? ApprovedOn { get; set; }
+        public bool? IsStock { get; set; }
 
         public virtual User ApprovedByNavigation { get; set; }
         public virtual Country Country { get; set; }

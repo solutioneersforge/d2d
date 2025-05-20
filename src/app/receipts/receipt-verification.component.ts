@@ -27,6 +27,7 @@ export class ReceiptVerificationComponent implements OnInit {
   @ViewChild('myModal') modalElement!: ElementRef;
   modalInstance: Modal | null = null;
   unitOfMeasuresDTO: UnitOfMeasuresDTO[] = [];
+  isStock?: boolean | null = false;
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService){
   }
 
@@ -77,7 +78,9 @@ export class ReceiptVerificationComponent implements OnInit {
     image : '',
     originalFileName: '',
     isImage: true,
-    receiptVerificationItems: []
+    receiptVerificationItems: [],
+    paymentTypeId: null,
+    isStock: null
   };
   
   receiptFormGroup = new FormGroup({
@@ -93,7 +96,8 @@ export class ReceiptVerificationComponent implements OnInit {
     subTotal: new FormControl(this.receiptVerificationMaster.subTotal, []),
     taxAmount: new FormControl(this.receiptVerificationMaster.taxAmount,[]),
     total: new FormControl(this.receiptVerificationMaster.total,[]),
-    imageBase64 : new FormControl(this.receiptVerificationMaster.image,[])
+    imageBase64 : new FormControl(this.receiptVerificationMaster.image,[]),
+     paymentType: new FormControl(this.receiptVerificationMaster.paymentTypeId,[])
   });
 
   getExpenseSubCategoriesDTO(){
@@ -105,10 +109,10 @@ export class ReceiptVerificationComponent implements OnInit {
   getFunctionAppReceiptVerification(receiptId: string){
           this.isLoading = true;
           this.receiptDetailsService.getFunctionAppReceiptVerification(receiptId).subscribe({ next: data => {
-            console.log(data.data)
             this.receiptVerificationMaster = data.data;
             this.isImageLoad = this.receiptVerificationMaster.isImage;
             this.imageBase64 = this.receiptVerificationMaster.image;
+            this.isStock = this.receiptVerificationMaster.isStock;
             this.receiptFormGroup.setValue({
               vendorAddress : this.receiptVerificationMaster.vendorAddress,
               customerAddress: this.receiptVerificationMaster.customerAddress,
@@ -123,6 +127,7 @@ export class ReceiptVerificationComponent implements OnInit {
               vendorName: this.receiptVerificationMaster.vendorName,
               vendorPhone: this.receiptVerificationMaster.vendorPhone,
               imageBase64: this.receiptVerificationMaster.image,
+              paymentType: this.receiptVerificationMaster.paymentTypeId
             });
             this.receiptVerificationMaster.receiptVerificationItems = data.data.receiptVerificationItems;
           },
@@ -170,6 +175,7 @@ export class ReceiptVerificationComponent implements OnInit {
         taxAmount: this.receiptFormGroup.value.taxAmount ?? 0,
         totalAmount: this.receiptFormGroup.value.total ?? 0,
         userId: this.authenticationService.getUserId,
+        paymentTypeId: this.receiptFormGroup.value.paymentType ?? null,
         receiptItemsApproval :  this.getItems()
      }
 

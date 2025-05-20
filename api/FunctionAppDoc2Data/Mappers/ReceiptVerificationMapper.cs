@@ -35,6 +35,8 @@ public static class ReceiptVerificationMapper
             Image = UploadImageToAzure.DownloadImage(receipt.ReceiptImages?.FirstOrDefault()?.ImagePath),
             ImagePath = receipt.ReceiptImages?.FirstOrDefault()?.ImagePath,
             IsImage = ValidateImageType(receipt.ReceiptImages?.FirstOrDefault()?.ImagePath),
+            PaymentTypeId = receipt.PaymentTypeId,
+            IsStock = receipt.IsStock,
             ReceiptVerificationItems = receipt.ReceiptItems?.Select(item => new ReceiptVerificationItemsDTO()
             {
                 Discount = item.Discount,

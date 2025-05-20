@@ -25,6 +25,7 @@ public class ReceiptApprovalDTO
     public int StatusId { get; set; }
     public decimal TotalAmount { get; set; }
     public decimal Discount { get; set; } = 0;
+    public int? PaymentTypeId { get; set; }
     public List<ReceiptItemsApprovalDTO> ReceiptItemsApproval { get; set; }
 
 }

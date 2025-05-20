@@ -14,7 +14,7 @@ import { ResetPasswordDTO } from '../interfaces/reset-password-dto';
 })
 export class AuthenticationService {
  baseAddress : string = environment.apiUrl; 
- private loggedIn = new BehaviorSubject<boolean>(false);
+ private loggedIn = new BehaviorSubject<boolean>(this.getInitialAuthState());
  private token: string | null = null;
  private userName = new BehaviorSubject<string>("");
  private companyName = new BehaviorSubject<string>("");
@@ -24,7 +24,13 @@ export class AuthenticationService {
  private companyEmail = new BehaviorSubject<string>("");
  private companyAddress = new BehaviorSubject<string>("");
 
-constructor(private httpClient : HttpClient, private jwtService: JwtService) { }
+constructor(private httpClient : HttpClient, private jwtService: JwtService) { this.setUserName(); }
+
+private getInitialAuthState(): boolean {
+  return this.getToken() ? true : false;
+}
+
+
 
 get isLoggedIn() {
   return this.loggedIn.asObservable();
@@ -56,6 +62,7 @@ get getRoleNameDisplay(){
 }
 
 setIsLogged(isLoggedIn: boolean){
+  console.log("set is Logged" + isLoggedIn);
   this.loggedIn.next(isLoggedIn);
 }
 
@@ -86,6 +93,7 @@ getToken(): string | null {
 
 removeToken(){
   sessionStorage.removeItem('jwt_token');
+  console.log("Remove" + this.getToken());
   this.userName.next("");
   this.companyName.next("");
   this.loggedIn.next(false);

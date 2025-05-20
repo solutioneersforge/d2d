@@ -61,7 +61,6 @@
     </div>
   </div>
 }
-
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
   <div class="container-fluid">
@@ -78,7 +77,7 @@
 
         @if(isLoggedIn | async) {
           <li class="nav-item"><a class="nav-link" routerLink="/dashboard" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-tachometer-alt me-1"></i> Dashboard</a></li>
-
+          <li class="nav-item"><a class="nav-link" routerLink="/merchant" routerLinkActive="active" (click)="collapseNavbar()"><i class="fas fa-store me-1"></i> Merchant</a></li>
           @if((roleName | async)?.toLowerCase() !== 'approver') {
             <li class="nav-item"><a class="nav-link" routerLink="/scan" routerLinkActive="active" (click)="collapseNavbar()"> <i class="fas fa-qrcode me-1"></i> Scan</a></li>
           }

@@ -313,7 +313,6 @@ namespace FunctionAppDoc2Data.DataContext
                 entity.HasOne(d => d.PaymentType)
                     .WithMany(p => p.Receipts)
                     .HasForeignKey(d => d.PaymentTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Receipts_PaymentTypes");
 
                 entity.HasOne(d => d.Status)

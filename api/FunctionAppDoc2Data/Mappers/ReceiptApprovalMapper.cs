@@ -21,7 +21,7 @@ public static class ReceiptApprovalMapper
             CustomerName = receiptApprovalDTO.CustomerName,
             MerchantId = receiptApprovalDTO.MerchantId,
             OtherCharge = receiptApprovalDTO.OtherCharge,
-            PaymentTypeId = 1,
+            PaymentTypeId = receiptApprovalDTO.PaymentTypeId,
             ReceiptDate = receiptApprovalDTO.ReceiptDate,
             ReceiptId = receiptApprovalDTO.ReceiptId,
             ServiceCharge = receiptApprovalDTO.ServiceCharge,
@@ -48,8 +48,8 @@ public static class ReceiptApprovalMapper
             Quantity = m.Quantity,
             SubTotal = m.Total,
             UnitPrice = m.UnitPrice,
-            SubCategoryId = m.SubCategoryId,
-            UnitOfMeasureId = m.UnitOfMeasureId
+            SubCategoryId = m.SubCategoryId == 0 || String.IsNullOrWhiteSpace(m.SubCategoryId.ToString()) ? null : m.SubCategoryId,
+            UnitOfMeasureId = m.UnitOfMeasureId == 0 || String.IsNullOrWhiteSpace(m.UnitOfMeasureId.ToString()) ? null : m.UnitOfMeasureId,
         }).ToList() ?? new List<DataContext.ReceiptItem>();
     }
 
@@ -73,6 +73,7 @@ public static class ReceiptApprovalMapper
         receipt.SubTotal = receiptApprovalDTO.SubTotal;
         receipt.TaxAmount = receiptApprovalDTO.TaxAmount;
         receipt.TotalAmount = receiptApprovalDTO.TotalAmount;
+        receipt.PaymentTypeId = receiptApprovalDTO.PaymentTypeId;
         if (receiptApprovalDTO.StatusId == (int)StatusEnum.APPROVED)
         {
             receipt.ApprovedBy = receiptApprovalDTO.ApprovedBy;

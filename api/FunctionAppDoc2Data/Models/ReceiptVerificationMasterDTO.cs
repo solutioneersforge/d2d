@@ -16,11 +16,13 @@ public class ReceiptVerificationMasterDTO
     public string InvoiceNumber { get; set; }
     public DateTime InvoiceDate { get; set; }
     public decimal SubTotal { get; set; }
+    public int? PaymentTypeId { get; set; }
     public decimal TaxAmount { get; set; }
     public decimal Total { get; set; }
     public string ImagePath { get; set; }
     public string Image { get; set; }
     public string OriginalFileName { get; set; }
     public bool IsImage { get; set; }
+    public bool? IsStock { get; set; }
     public List<ReceiptVerificationItemsDTO> ReceiptVerificationItems { get; set; }
 }

@@ -22,5 +22,6 @@ export interface ReceiptApprovalDTO {
     statusId: number;
     totalAmount: number;
     discount: number;
+    paymentTypeId: number | null;
     receiptItemsApproval: ReceiptItemsApprovalDTO[];
 }

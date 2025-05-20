@@ -63,7 +63,7 @@
             <input type="email" class="form-control" formControlName="vendorEmail"
                    id="vendorEmail" placeholder="">
           </div>
-          <div class="col-6 col-lg-6 mb-3">
+          <!-- <div class="col-6 col-lg-6 mb-3">
             <label for="customerName" class="form-label">Customer Name</label>
             <input type="text" class="form-control" formControlName="customerName"
                    id="customerName" placeholder="">
@@ -76,7 +76,7 @@
           <div class="col-12 col-lg-6 mb-3">
             <label for="customerAddress" class="form-label">Customer Address</label>
             <input type="email" class="form-control" formControlName="customerAddress" id="customerAddress" placeholder="">
-          </div>
+          </div> -->
 
           <div class="col-6 col-lg-6 mb-3">
             <label for="invoiceNumber" class="form-label">Invoice Number</label>
@@ -88,6 +88,14 @@
             <input type="text" formControlName="invoiceDate"
                    class="form-control" id="invoiceDate" placeholder="">
 
+          </div>
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="paymentType" class="form-label">Payment Type</label>
+            <select class="form-select" aria-label="Default Select Category" formControlName="paymentType">
+              @for (item of paymentTypeDto; track $index) {
+                <option value="{{item.paymentTypeId}}">{{item.paymentType}}</option>
+              }
+            </select>
           </div>
           <div class="col-6 col-lg-6 mb-3">
             <label for="subTotal" class="form-label">Subtotal</label>
@@ -110,9 +118,11 @@
         <div class="col-4 col-lg-4 mb-3">
           <button (click)="backToDashBoard()" class="btn btn-danger" style="width: 100%;">Back</button>
         </div>
+        
         <div class="col-4 col-lg-4 mb-3">
+          @if(isStock === true){
           <button data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="adjustItemInfo()" class="btn btn-outline-primary" style="width: 100%;">Adjust Item</button>
-        </div>
+       }</div>
         <div class="col-4 col-lg-4 mb-3">
           @if(isSaveLoader){
           <div class="d-flex justify-content-center">
@@ -135,7 +145,7 @@
 </div>
 
 
-
+@if(isStock === true){
 
 <div class="container my-4">
   <table class="table table-striped table-bordered table-hover shadow-lg">
@@ -184,12 +194,12 @@
   </table>
 </div>
 
-
+}
 
 
     }
 
-    @if(currentItem){
+    @if(currentItem && isStock === true){
 <form #itemForm="ngForm">
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">

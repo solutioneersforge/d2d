@@ -1,17 +1,19 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { ReceiptDetailsService } from '../services/receipt-details.service';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { ReceiptHistoryDTO } from '../interfaces/receipt-history-dto';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 @Component({
   selector: 'app-receipt-history',
-  imports: [DatePipe, CurrencyPipe, CommonModule ],
+  imports: [DatePipe, CurrencyPipe, CommonModule, BsDropdownModule ],
   templateUrl: './receipt-history.component.html',
   styleUrl: './receipt-history.component.css'
 })
 export class ReceiptHistoryComponent implements OnInit {
   receiptDetailsService = inject(ReceiptDetailsService);
   receiptDashboardDTO: ReceiptHistoryDTO[] = [];
+  selectedOption: string = ''; // Track selected option
   isLoading: boolean = true;
   constructor() { }
   ngOnInit(): void {
@@ -44,5 +46,6 @@ export class ReceiptHistoryComponent implements OnInit {
         return 'text-secondary'; // Default gray
     }
   }
+
 }
 

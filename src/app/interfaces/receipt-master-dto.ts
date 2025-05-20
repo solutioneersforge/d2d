@@ -15,4 +15,6 @@ export interface ReceiptMasterDTO {
     taxAmount: number | null;
     total: number | null;
     ReceiptItemDTOs : ReceiptItemDTO[] | null;
+    paymentTypeId: number | null;
+    isStock: boolean | null;
 }

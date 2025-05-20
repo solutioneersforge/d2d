@@ -5,6 +5,22 @@
         <div class="p-5">
           <div class="col-lg-6 col-12">
             <div class="form-group">
+            <div class="form-check mb-3 align-items-center d-flex">
+  <input
+    class="form-check-input me-2"
+    type="checkbox"
+    id="customCheckbox"
+    [(ngModel)]="isStocked"
+    name="customCheckbox"
+    [disabled]="isStockedDisabled"
+  />
+  <label class="form-check-label px-3 py-1 rounded bg-light border text-dark fw-semibold shadow-sm" 
+         style="font-size: 1.1rem;" 
+         for="customCheckbox">
+    ✅ Is Stock?
+  </label>
+</div>
+
               <label for="imageUpload" class="form-label">Choose an Image</label>
               <input
               class="primary"#fileInput  type="file" class="form-control" (change)="onFileChange($event)" accept="image/*, application/pdf" />
@@ -83,6 +99,17 @@
             class="form-control" id="invoiceDate" placeholder="">
             
           </div>
+
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="paymentType" class="form-label">Payment Type</label>
+            <select class="form-select" aria-label="Default Select Payment" formControlName="paymentType">
+              @for (item of paymentTypeDto; track $index) {
+                <option value="{{item.paymentTypeId}}">{{item.paymentType}}</option>
+              }
+            </select>
+          </div>
+
+          
           <div class="col-6 col-lg-6 mb-3">
             <label for="subTotal" class="form-label">Subtotal</label>
             <input type="text" formControlName="subTotal" class="form-control" id="subTotal" placeholder="">
@@ -139,6 +166,7 @@
       </div>
     </div>
     </div>
+    @if(isStocked === true){
       <div class="container my-4">
         <table class="table table-striped table-bordered table-hover shadow-lg">
           <thead class="table-primary">
@@ -174,7 +202,7 @@
           </tbody>
         </table>
       </div>
-      
+    }  
     </div>
   </div>
 
