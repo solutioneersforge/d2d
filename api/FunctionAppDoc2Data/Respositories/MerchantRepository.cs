@@ -74,7 +74,8 @@ public class MerchantRepository : IMerchantRepository
         {
             var merchant = await _docToDataDBContext.Merchants
                 .AsNoTracking()
-                .FirstOrDefaultAsync(m => m.Name == merchantDTO.Name && m.Address == merchantDTO.Address);
+                .FirstOrDefaultAsync(m => m.Name.Trim() == merchantDTO.Name.Trim() 
+                 && (String.IsNullOrEmpty(m.Address.Trim()) ? "" : m.Address.Trim()) == merchantDTO.Address.Trim());
 
             return merchant?.MerchantId;
         }

@@ -1,19 +1,26 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router, RouterModule } from '@angular/router';
 import { UserRegisterModeldto } from '../interfaces/user-register-modeldto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+ import { CurrencyTypeDto } from './../interfaces/currency-type-dto';
 
 @Component({
   selector: 'app-company-register',
   imports: [RouterModule, CommonModule, FormsModule],
-  templateUrl: './company-register.component.html',
+ 
+templateUrl: './company-register.component.html',
   styleUrl: './company-register.component.css',
 })
-export class CompanyRegisterComponent {
+export class CompanyRegisterComponent implements OnInit {
   authService = inject(AuthenticationService);
   constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.authService.getFunctionAppCurrency().subscribe(data => {
+      this.currencyTypeDTO = data.data
+    })
+  }
   isLoading:boolean = false;
   companyName: string = '';
   firstName: string = '';
@@ -25,6 +32,9 @@ export class CompanyRegisterComponent {
   address: string = '';
   telephoneNumber : string = '';
   companyEmail: string = '';
+currencyType: number | null = null;
+   currencyTypeDTO: CurrencyTypeDto[] =[];
+   isInventoryTrack: boolean = false;
   
   userRegisterModeldto: UserRegisterModeldto = {
     companyName: '',
@@ -37,6 +47,8 @@ export class CompanyRegisterComponent {
      telephoneNumber: '',
      address: '',
      companyEmail: '',
+     currencyId: null,
+     isTrackInventory: false
   };
   captchaAnswer: number = 8;
 
@@ -57,6 +69,8 @@ export class CompanyRegisterComponent {
     this.userRegisterModeldto.telephoneNumber = this.telephoneNumber;
     this.userRegisterModeldto.address = this.address;
     this.userRegisterModeldto.companyEmail = this.companyEmail;
+    this.userRegisterModeldto.currencyId =  this.currencyType ?? null;
+   this.userRegisterModeldto.isTrackInventory = this.isInventoryTrack;
     this.isLoading = true;
     this.authService
       .postFunctionAppRegistration(this.userRegisterModeldto)

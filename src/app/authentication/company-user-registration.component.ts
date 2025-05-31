@@ -45,6 +45,8 @@ export class CompanyUserRegistrationComponent implements OnInit {
       address: '',
       telephoneNumber: '',
       companyEmail:'',
+      currencyId : 0,
+      isTrackInventory : false
     };
 
   constructor(private fb: FormBuilder) {
@@ -154,6 +156,8 @@ getFunctionAppGetCompanyUser(){
       telephoneNumber: this.userForm.get('telephoneNumber')?.value || '',
       address: this.userForm.get('address')?.value || '',
       companyEmail: this.userForm.get('companyEmail')?.value || '',
+      currencyId:0,
+      isTrackInventory : false
     }
     this.isLoading = true;
     this.authService

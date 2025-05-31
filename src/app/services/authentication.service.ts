@@ -19,6 +19,7 @@ export class AuthenticationService {
  private userName = new BehaviorSubject<string>("");
  private companyName = new BehaviorSubject<string>("");
  private roleName = new BehaviorSubject<string>("");
+ private isInventoryTrack = new BehaviorSubject<boolean>(false);
 
  private companyPhoneNumber = new BehaviorSubject<string>("");
  private companyEmail = new BehaviorSubject<string>("");
@@ -61,6 +62,10 @@ get getRoleNameDisplay(){
   return this.roleName.asObservable();
 }
 
+get getIsInventoryStockDisplay(){
+  return this.isInventoryTrack.asObservable();
+}
+
 setIsLogged(isLoggedIn: boolean){
   console.log("set is Logged" + isLoggedIn);
   this.loggedIn.next(isLoggedIn);
@@ -82,6 +87,10 @@ postFunctionAppUpdateCompany(companyUpdateDto: CompanyUpdateDTO) : Observable<an
   return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppUpdateCompany`, companyUpdateDto);
 }
 
+getFunctionAppCurrency() : Observable<any>{
+  return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppCurrency`);
+}
+
 setToken(token: string): void {
   sessionStorage.setItem('jwt_token', token);
   this.setUserName();
@@ -101,6 +110,7 @@ removeToken(){
   this.companyEmail.next("");
   this.companyAddress.next("");
   this.companyPhoneNumber.next("");
+  this.isInventoryTrack.next(false);
 }
 
 setUserName(){
@@ -111,6 +121,7 @@ setUserName(){
   this.companyEmail.next(this.jwtService.getCompanyEmail(this.getToken() ?? ""));
   this.companyAddress.next(this.jwtService.getCompanyAddress(this.getToken() ?? ""));
   this.companyPhoneNumber.next(this.jwtService.getCompanyPhoneNumber(this.getToken() ?? ""));
+  this.isInventoryTrack.next((this.jwtService.getIsInventoryTrack(this.getToken() ?? "") ?? false))
 }
 
 get getUserId() : string{

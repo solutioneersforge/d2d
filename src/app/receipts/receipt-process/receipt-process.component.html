@@ -5,22 +5,6 @@
         <div class="p-5">
           <div class="col-lg-6 col-12">
             <div class="form-group">
-            <div class="form-check mb-3 align-items-center d-flex">
-  <input
-    class="form-check-input me-2"
-    type="checkbox"
-    id="customCheckbox"
-    [(ngModel)]="isStocked"
-    name="customCheckbox"
-    [disabled]="isStockedDisabled"
-  />
-  <label class="form-check-label px-3 py-1 rounded bg-light border text-dark fw-semibold shadow-sm" 
-         style="font-size: 1.1rem;" 
-         for="customCheckbox">
-    ✅ Is Stock?
-  </label>
-</div>
-
               <label for="imageUpload" class="form-label">Choose an Image</label>
               <input
               class="primary"#fileInput  type="file" class="form-control" (change)="onFileChange($event)" accept="image/*, application/pdf" />
@@ -100,16 +84,21 @@
             
           </div>
 
-          <div class="col-6 col-lg-6 mb-3">
-            <label for="paymentType" class="form-label">Payment Type</label>
-            <select class="form-select" aria-label="Default Select Payment" formControlName="paymentType">
-              @for (item of paymentTypeDto; track $index) {
-                <option value="{{item.paymentTypeId}}">{{item.paymentType}}</option>
-              }
-            </select>
-          </div>
+        <div class="col-6 col-lg-6 mb-3">
+  <label for="paymentType" class="form-label">Payment Type</label>
+  <select class="form-select" id="paymentType" aria-label="Default Select Payment" formControlName="paymentType">
+    <option value="" disabled selected>Select a payment type</option>
+    @for (item of paymentTypeDto; track $index) {
+      <option value="{{item.paymentTypeId}}">{{item.paymentType}}</option>
+    }
+  </select>
+   @if (receiptFormGroup.get('paymentType')?.touched && receiptFormGroup.get('paymentType')?.invalid) {
+  <div class="text-danger">
+    Payment Type is required.
+  </div>
+}
+</div>
 
-          
           <div class="col-6 col-lg-6 mb-3">
             <label for="subTotal" class="form-label">Subtotal</label>
             <input type="text" formControlName="subTotal" class="form-control" id="subTotal" placeholder="">
@@ -123,6 +112,32 @@
             <label for="total" class="form-label">Total</label>
             <input type="text" class="form-control" formControlName="total"
             id="total" placeholder="">
+          </div>
+
+        <div class="col-6 col-lg-6 mb-3">
+  <label for="expense" class="form-label">Expense</label> 
+  <select class="form-select" 
+          id="expense"
+          formControlName="subExpenseId"
+          [class.is-invalid]="receiptFormGroup.get('subExpenseId')?.invalid && receiptFormGroup.get('subExpenseId')?.touched">
+          @for (item of expenseCategoriesDTO; track $index) {
+      @for (itemSub of item.expenseSubCategoriesDTOs; track $index) {
+        <option value="{{itemSub.subCategoryId}}">{{itemSub.subCategoryName}}</option>
+      }
+    }
+  </select>
+  
+    @if (receiptFormGroup.get('subExpenseId')?.touched && receiptFormGroup.get('subExpenseId')?.invalid) {
+  <div class="text-danger">
+    Expense is required.
+  </div>
+  }
+</div>
+
+          <div class="col-6 col-lg-6 mb-3">
+            <label for="remarks" class="form-label">Remarks</label>
+            <textarea class="form-control" formControlName="remarks"
+              id="remarks" rows="4" placeholder="" maxlength="200"></textarea>
           </div>
          
          

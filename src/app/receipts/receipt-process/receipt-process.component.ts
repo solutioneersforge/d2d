@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ReceiptDetails } from '../../interfaces/receipt-details.model';
 import { ReceiptDetailsService } from '../../services/receipt-details.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
@@ -11,6 +11,7 @@ import { NotificationService } from '../../services/notification.service';
 import { NotificationComponent } from '../../shared/header/notification.component';
 import { AuthenticationService } from '../../services/authentication.service';
 import { PaymentTypeDto } from '../../interfaces/payment-type-dto';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-receipt-process',
@@ -20,6 +21,9 @@ import { PaymentTypeDto } from '../../interfaces/payment-type-dto';
 })
 export class ReceiptProcessComponent implements OnInit {
   ngOnInit(): void {
+    this.authService.getIsInventoryStockDisplay.subscribe((data) => {
+      this.isStocked = data
+    })
     this.getPaymentTypeDTO();
     this.getExpenseSubCategoriesDTO();
   }
@@ -28,8 +32,10 @@ export class ReceiptProcessComponent implements OnInit {
   receiptItemDTOs: ReceiptItemDTO[] = [];
   isSaveButtonEnable : boolean = false;
   paymentTypeDto: PaymentTypeDto[] =[];
-  isStocked: boolean = false;
-  isStockedDisabled : boolean = false;
+  isStocked: boolean = true;
+  isStockedDisabled : boolean = true;
+    isInventoryTrack !: Observable<boolean>;
+     authService = inject(AuthenticationService); 
 
   receiptMasterDTO: ReceiptMasterDTO = {
     userId: null,
@@ -47,7 +53,9 @@ export class ReceiptProcessComponent implements OnInit {
     total: null,
     ReceiptItemDTOs: null,
     paymentTypeId: null,
-    isStock: null
+    isStock: null,
+    remarks: null,
+    subExpenseId: null
   };
   @ViewChild('fileInput') fileInput!: ElementRef;
   isLoading: boolean = true;
@@ -111,7 +119,8 @@ export class ReceiptProcessComponent implements OnInit {
     vendorEmailAddress: null,
     serviceStartDate: new Date(),
     serviceEndDate: new Date(),
-    total: 0
+    total: 0,
+    subExpenseId: 0
   };
   
   onFileChange(event: any): void {
@@ -151,8 +160,10 @@ export class ReceiptProcessComponent implements OnInit {
       subTotal: new FormControl(this.receiptDetails.subtotal, []),
       taxAmount: new FormControl(this.receiptDetails.taxableAmount,[]),
       total: new FormControl(this.receiptDetails.total,[]),
-      paymentType: new FormControl(this.receiptDetails.paymentMethod,[]),
-      itemCount: new FormControl(this.receiptDetails.itemsCount,[])
+      paymentType: new FormControl(this.receiptDetails.paymentMethod,[Validators.required]),
+      itemCount: new FormControl(this.receiptDetails.itemsCount,[]),
+      remarks: new FormControl('',[]),
+      subExpenseId: new FormControl(0, [Validators.required])
     });
 
     processReceipt() {
@@ -178,7 +189,9 @@ export class ReceiptProcessComponent implements OnInit {
                     total : this.receiptDetails.total,
                     vendorEmail: this.receiptDetails.vendorEmailAddress,
                     vendorName: this.receiptDetails.vendorName,
-                    vendorPhone: this.receiptDetails.vendorPhone
+                    vendorPhone: this.receiptDetails.vendorPhone,
+                    remarks: '',
+                    subExpenseId: 0
                   });
                   this.isSaveButtonEnable = true;
                   this.isStockedDisabled = true;
@@ -221,6 +234,8 @@ export class ReceiptProcessComponent implements OnInit {
         this.receiptMasterDTO.vendorPhone = this.receiptFormGroup.value.vendorPhone ?? null;
         this.receiptMasterDTO.paymentTypeId  = paymentTypeValue !== null ? Number(paymentTypeValue) : null;
         this.receiptMasterDTO.isStock = this.isStocked;
+        this.receiptMasterDTO.remarks = this.receiptFormGroup.value.remarks ?? null;
+        this.receiptMasterDTO.subExpenseId = this.receiptFormGroup.value.subExpenseId ?? 0;
         this.receiptItemDTOs = [];
         this.receiptDetails.receiptItems.forEach(data => {
             this.receiptItemDTOs?.push({

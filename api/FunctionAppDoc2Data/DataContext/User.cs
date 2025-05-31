@@ -11,6 +11,7 @@ namespace FunctionAppDoc2Data.DataContext
             ExpenseCategories = new HashSet<ExpenseCategory>();
             ReceiptApprovedByNavigations = new HashSet<Receipt>();
             ReceiptModifiedByNavigations = new HashSet<Receipt>();
+            ReceiptRejectedByNavigations = new HashSet<Receipt>();
             ReceiptUsers = new HashSet<Receipt>();
         }
 
@@ -33,11 +34,15 @@ namespace FunctionAppDoc2Data.DataContext
         public bool? IsActive { get; set; }
         public DateTime? ExpiredForgetPasswordKey { get; set; }
         public bool? IsExpiredKeyUsed { get; set; }
+        public int? CurrencyId { get; set; }
+        public bool? IsInventoryTrack { get; set; }
 
+        public virtual Currency Currency { get; set; }
         public virtual ICollection<CompanyMember> CompanyMembers { get; set; }
         public virtual ICollection<ExpenseCategory> ExpenseCategories { get; set; }
         public virtual ICollection<Receipt> ReceiptApprovedByNavigations { get; set; }
         public virtual ICollection<Receipt> ReceiptModifiedByNavigations { get; set; }
+        public virtual ICollection<Receipt> ReceiptRejectedByNavigations { get; set; }
         public virtual ICollection<Receipt> ReceiptUsers { get; set; }
     }
 }

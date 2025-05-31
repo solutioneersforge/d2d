@@ -50,7 +50,7 @@ public class MerchantDetailsRepository : IMerchantDetailsRepository
                 }
 
                 var merchatDetails = await _docToDataDBContext
-                                .Receipts.Where(m => listOfUserId.Contains(m.UserId)).Select(m => m.Merchant).Distinct().ToListAsync();
+                                .Receipts.Where(m => listOfUserId.Contains(m.UserId)).Select(m => m.Merchant).Distinct().OrderBy(m=> m.Name).ToListAsync();
 
                 return merchatDetails.MapToMerchantDetailsDTO();
             }

@@ -14,3 +14,19 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;}
 }
 
 
+/* Change primary color to blue */
+.bs-datepicker {
+  --bs-primary: #0d6efd !important;
+  --bs-success: #0d6efd !important;
+}
+
+/* Header background */
+.bs-datepicker-head {
+  background-color: #0d6efd !important;
+}
+
+/* Selected date */
+.bs-datepicker-body table td span.selected {
+  background-color: #0d6efd !important;
+}
+

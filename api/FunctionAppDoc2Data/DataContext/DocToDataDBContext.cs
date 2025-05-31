@@ -273,6 +273,10 @@ namespace FunctionAppDoc2Data.DataContext
 
                 entity.Property(e => e.ReceiptNumber).HasMaxLength(50);
 
+                entity.Property(e => e.RejectComment).HasMaxLength(500);
+
+                entity.Property(e => e.RejectedOn).HasColumnType("datetime");
+
                 entity.Property(e => e.ServiceCharge).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.SubTotal).HasColumnType("decimal(18, 2)");
@@ -315,11 +319,21 @@ namespace FunctionAppDoc2Data.DataContext
                     .HasForeignKey(d => d.PaymentTypeId)
                     .HasConstraintName("FK_Receipts_PaymentTypes");
 
+                entity.HasOne(d => d.RejectedByNavigation)
+                    .WithMany(p => p.ReceiptRejectedByNavigations)
+                    .HasForeignKey(d => d.RejectedBy)
+                    .HasConstraintName("FK_Receipts_Users3");
+
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Receipts)
                     .HasForeignKey(d => d.StatusId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Receipts_Status");
+
+                entity.HasOne(d => d.SubCategory)
+                    .WithMany(p => p.Receipts)
+                    .HasForeignKey(d => d.SubCategoryId)
+                    .HasConstraintName("FK_Receipts_ExpenseSubCategories");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ReceiptUsers)
@@ -542,6 +556,11 @@ namespace FunctionAppDoc2Data.DataContext
                 entity.Property(e => e.PasswordHash).IsRequired();
 
                 entity.Property(e => e.UpdatedAt).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Currency)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.CurrencyId)
+                    .HasConstraintName("FK_Users_Currencies");
             });
 
             OnModelCreatingPartial(modelBuilder);

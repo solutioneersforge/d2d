@@ -47,5 +47,6 @@ export interface ReceiptDetails {
     barcodeQRCode: string;
     unknownField: string;
     total: number;
+    subExpenseId: number;
     receiptItems: ReceiptItem[];
 }

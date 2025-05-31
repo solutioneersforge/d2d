@@ -22,4 +22,7 @@ public class ReceiptMasterDTO
     public List<ReceiptItemDTO> ReceiptItemDTOs { get; set; }
     public int? PaymentTypeId { get; set; }
     public bool? IsStock { get; set; }
+    public string Remarks { get; set; }
+    public int SubExpenseId { get; set; }
+    public int CurrencyId { get; set; }
 }

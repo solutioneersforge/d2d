@@ -16,7 +16,7 @@ public class ReceiptHistoryRepository : IReceiptHistoryRepository
         _docToDataDBContext = docToDataDBContext;
     }
 
-    public IEnumerable<ReceiptHistoryDTO> GetReceiptHistory(Guid userId)
+    public IEnumerable<ReceiptHistoryDTO> GetReceiptHistory(Guid userId, DateTime fromDate, DateTime toDate)
     {
         var companyMember = _docToDataDBContext.CompanyMembers
                               .FirstOrDefault(m => m.UserId == userId);
@@ -37,13 +37,15 @@ public class ReceiptHistoryRepository : IReceiptHistoryRepository
         }
 
         var resultReceipt = _docToDataDBContext.Receipts
-            .Where(m => listOfUserId.Contains(m.UserId))
+            .Where(m => listOfUserId.Contains(m.UserId) && m.CreatedOn >= fromDate && m.CreatedOn <= toDate)
             .Include(m => m.Merchant)
             .Include(m => m.Status)
              .Include(m => m.User)
+             .Include(m => m.Currency)
              .Include(m => m.ApprovedByNavigation)
              .Include(m => m.ModifiedByNavigation)
-            .AsNoTracking()
+            .AsNoTracking().
+            OrderByDescending(m => m.CreatedOn)
             .ToList();
 
         return resultReceipt.MapToReceiptHistory();

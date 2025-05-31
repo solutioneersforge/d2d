@@ -22,10 +22,12 @@ public static class UserMapper
                 FailedLoginAttempts = 0,
                 FirstName = userRegisterModel.FirstName,
                 LastName = userRegisterModel.LastName,
-                IsEmailConfirmed = false,
+                IsEmailConfirmed = true,
                 IsTwoFactorEnabled = false,
                 PasswordHash = hasPasword.hash,
-                PasswordSalt = hasPasword.salt
+                PasswordSalt = hasPasword.salt,
+                CurrencyId = userRegisterModel.CurrencyId,
+                IsInventoryTrack = userRegisterModel.IsTrackInventory
             };
         }
         catch (Exception ex)

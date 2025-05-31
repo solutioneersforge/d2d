@@ -20,4 +20,7 @@ export interface ReceiptHistoryDTO {
   modifiedOn?: Date;
   createdBy: string;
   createdOn? : Date;
+  remarks?: string;
+  currencyCode? : string;
+  selectedOption?: string;
 }

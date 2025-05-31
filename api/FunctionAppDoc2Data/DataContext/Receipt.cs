@@ -36,6 +36,11 @@ namespace FunctionAppDoc2Data.DataContext
         public Guid? ApprovedBy { get; set; }
         public DateTime? ApprovedOn { get; set; }
         public bool? IsStock { get; set; }
+        public string Remarks { get; set; }
+        public int? SubCategoryId { get; set; }
+        public string RejectComment { get; set; }
+        public Guid? RejectedBy { get; set; }
+        public DateTime? RejectedOn { get; set; }
 
         public virtual User ApprovedByNavigation { get; set; }
         public virtual Country Country { get; set; }
@@ -43,7 +48,9 @@ namespace FunctionAppDoc2Data.DataContext
         public virtual Merchant Merchant { get; set; }
         public virtual User ModifiedByNavigation { get; set; }
         public virtual PaymentType PaymentType { get; set; }
+        public virtual User RejectedByNavigation { get; set; }
         public virtual Status Status { get; set; }
+        public virtual ExpenseSubCategory SubCategory { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<ReceiptCategory> ReceiptCategories { get; set; }
         public virtual ICollection<ReceiptImage> ReceiptImages { get; set; }

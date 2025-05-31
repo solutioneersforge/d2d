@@ -39,6 +39,7 @@ public class AuthService : IAuthService
                 new Claim("company_email", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.Company?.CompanyEmail ?? ""),
                 new Claim("company_address", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.Company?.Address ?? ""),
                 new Claim("company_phone", user.CompanyMembers.Count == 0  ? "" : user.CompanyMembers.FirstOrDefault(m => m.UserId == user.UserId)?.Company?.TelephoneNumber ?? ""),
+                new Claim("is_inventory_track", user.IsInventoryTrack.GetValueOrDefault().ToString()),
         };
 
         var token = new JwtSecurityToken(

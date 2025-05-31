@@ -24,4 +24,6 @@ public class ReceiptHistoryDTO
     public DateTime? ApprovedOn { get; set; }
     public string ModifiedBy { get; set; }
     public DateTime? ModifiedOn { get; set; }
+    public string Remarks { get; set; }
+    public string CurrencyCode { get; set; }
 }

@@ -1,25 +1,26 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
+using FunctionAppDoc2Data.Models;
+using FunctionAppDoc2Data.Respositories;
+using FunctionAppDoc2Data.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using FunctionAppDoc2Data.Respositories;
-using FunctionAppDoc2Data.Services;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace FunctionAppDoc2Data.AzureFunctions
 {
     public class FunctionAppRejectReceipt
     {
-        private readonly IExpenseSubExpenseRepository _expenseSubExpenseRepository;
+        private readonly IRejectReceiptRepository _rejectReceiptRepository;
         private readonly IValidatedTokenService _validatedTokenService;
-        public FunctionAppRejectReceipt(IExpenseSubExpenseRepository expenseSubExpenseRepository
+        public FunctionAppRejectReceipt(IRejectReceiptRepository rejectReceiptRepository
             , IValidatedTokenService validatedTokenService)
         {
-            _expenseSubExpenseRepository = expenseSubExpenseRepository;
+            _rejectReceiptRepository = rejectReceiptRepository;
             _validatedTokenService = validatedTokenService;
         }
 
@@ -41,13 +42,31 @@ namespace FunctionAppDoc2Data.AzureFunctions
                     });
                 }
 
-                var resultData = await _expenseSubExpenseRepository.GetExpenseSubExpenseCategoryAsync(tokenValidation.userId);
-                return new OkObjectResult(new
+                using StreamReader reader = new(req.Body);
+                string bodyStr = await reader.ReadToEndAsync();
+
+                var rejectReceiptDTO = JsonConvert.DeserializeObject<RejectReceiptDTO>(bodyStr);
+
+                var resultData = await _rejectReceiptRepository.RejectReceipt(rejectReceiptDTO, tokenValidation.userId);
+                if(resultData == 1)
                 {
-                    Data = resultData,
-                    Message = "Success",
-                    IsSuccess = true
-                });
+                    return new OkObjectResult(new
+                    {
+                        Data = "Successfully Reject the Receipt",
+                        Message = "Success",
+                        IsSuccess = true
+                    });
+                }
+                else
+                {
+                    return new OkObjectResult(new
+                    {
+                        Data = "Your receipt request has been denied because you are either not authorized or the request to reject the receipt is invalid.",
+                        Message = "Failed",
+                        IsSuccess = false
+                    });
+                }
+               
             }
             catch (Exception ex)
             {

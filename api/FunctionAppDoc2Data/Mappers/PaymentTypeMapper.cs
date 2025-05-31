@@ -30,6 +30,31 @@ public static class PaymentTypeMapper
 }
 
 
+public static class CurrencyTypeMapper
+{
+    public static IEnumerable<CurrencyTypeDTO> MapToCurrencyTypeDTO(this IEnumerable<DataContext.Currency> currencyTypes)
+    {
+        try
+        {
+            if (currencyTypes == null)
+                throw new ArgumentNullException(nameof(currencyTypes));
+
+            return currencyTypes.Select(currency => new CurrencyTypeDTO
+            {
+                Code = currency.Code,
+                CurrencyId = currency.CurrenctId,
+                Name = currency.Name,
+                Symbol = currency.Symbol
+            });
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
+    }
+}
+
+
 public static class MerchantDetailsMapper
 {
     public static IEnumerable<MerchantDetailsDTO> MapToMerchantDetailsDTO(this IEnumerable<Merchant> merchants)

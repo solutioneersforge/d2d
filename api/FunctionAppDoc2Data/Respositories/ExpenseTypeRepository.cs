@@ -25,6 +25,7 @@ public class ExpenseTypeRepository : IExpenseTypeRepository
             var subCategory = _docToDataDBContext.ExpenseSubCategories
                         .FirstOrDefault(m => m.SubCategoryId == expenseType.SubcategoryId);
             subCategory.SubCategoryName = expenseType.SubCategoryName;
+            subCategory.IsActive = expenseType.IsActive;
             _docToDataDBContext.SaveChanges();
             return 3;
         }

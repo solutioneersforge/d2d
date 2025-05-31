@@ -32,12 +32,13 @@ public static class ReceiptWithItemsMapper
             TaxAmount = receiptMaster.TaxAmount,
             TotalAmount = receiptMaster.Total,
             UserId = receiptMaster.UserId,
-            CurrencyId = 1,
+            CurrencyId = receiptMaster.CurrencyId,
             CustomerAddress = receiptMaster.CustomerAddress,
             CustomerName = receiptMaster.CustomerName,
             CustomerPhone = receiptMaster.CustomerPhone,
             ReceiptItems = receiptMaster.IsStock.HasValue && receiptMaster.IsStock.Value ? GetReceiptItems(receiptMaster.ReceiptItemDTOs) : null,
-            IsStock = receiptMaster.IsStock
+            Remarks = receiptMaster.Remarks,
+            SubCategoryId = receiptMaster.SubExpenseId
         };
     }
 

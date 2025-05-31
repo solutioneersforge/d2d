@@ -34,7 +34,9 @@ public static class ReceiptHistoryMapper
             ApprovedOn = m.ApprovedOn,
             ModifiedBy = m.ModifiedByNavigation != null ? $"{m.ModifiedByNavigation.FirstName} {m.ModifiedByNavigation.LastName}" : "",
             ModifiedOn = m.UpdatedOn,
-            CreatedOn = m.CreatedOn
+            CreatedOn = m.CreatedOn,
+            Remarks = m.Remarks,
+            CurrencyCode = m.Currency.Name
         });
     }
 }

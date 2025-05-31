@@ -8,3 +8,19 @@
 .cursor-pointer {
   cursor: pointer;
 }
+
+ngb-datepicker {
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  background: white;
+  z-index: 1000;
+}
+
+.ngb-dp-weekday {
+  font-style: normal !important;
+}
+
+.ngb-dp-day, .ngb-dp-week-number {
+  width: 2rem;
+  height: 2rem;
+}

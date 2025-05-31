@@ -11,21 +11,22 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace FunctionAppDoc2Data.Respositories;
-public class PaymentTypeRepository : IPaymentTypeRepository
+public class CurrencyTypeRepository : ICurrencyTypeRepository
 {
     private readonly DocToDataDBContext _docToDataDBContext;
     private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ILogger<PaymentTypeRepository> _logger;
+    private readonly ILogger<CurrencyTypeRepository> _logger;
 
-    public PaymentTypeRepository(DocToDataDBContext docToDataDBContext,
-        IServiceScopeFactory scopeFactory, ILogger<PaymentTypeRepository> logger)
+    public CurrencyTypeRepository(DocToDataDBContext docToDataDBContext,
+       IServiceScopeFactory scopeFactory, ILogger<CurrencyTypeRepository> logger)
     {
         _scopeFactory = scopeFactory;
         _logger = logger;
         _docToDataDBContext = docToDataDBContext;
     }
 
-    public async Task<IEnumerable<PaymentTypeDTO>> GetPaymentTypeAsync()
+
+    public async Task<IEnumerable<CurrencyTypeDTO>> GetCurrencyTypeAsync()
     {
         try
         {
@@ -33,14 +34,14 @@ public class PaymentTypeRepository : IPaymentTypeRepository
             {
                 var context = scope.ServiceProvider.GetRequiredService<DocToDataDBContext>();
 
-                IEnumerable<PaymentType> paymentTypes = paymentTypes = await context.PaymentTypes.ToListAsync();
-                return paymentTypes.MapToPaymentTypeDTO();
+                IEnumerable<DataContext.Currency> currencyType = await context.Currencies.ToListAsync();
+                return currencyType.MapToCurrencyTypeDTO();
             }
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return Enumerable.Empty<PaymentTypeDTO>();
+            return Enumerable.Empty<CurrencyTypeDTO>();
         }
     }
 }

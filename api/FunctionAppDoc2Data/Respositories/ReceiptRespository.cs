@@ -1,6 +1,7 @@
 ﻿using FunctionAppDoc2Data.DataContext;
 using FunctionAppDoc2Data.Mappers;
 using FunctionAppDoc2Data.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
@@ -36,6 +37,9 @@ public class ReceiptRespository : IReceiptRespository
         };
         var merchantId = await _merchantRepository.CreateUpdateMerchant(merchantDTO);
 
+        var usersDetails = await _docToDataDBContext.Users.FirstOrDefaultAsync(m => m.UserId == receiptMaster.UserId);
+        receiptMaster.IsStock = usersDetails.IsInventoryTrack.GetValueOrDefault();
+        receiptMaster.CurrencyId = usersDetails.CurrencyId.GetValueOrDefault();
         var result = receiptMaster.MapToReceiptEntity();
         result.MerchantId = merchantId;
 

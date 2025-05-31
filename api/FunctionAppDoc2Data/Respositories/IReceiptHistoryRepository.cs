@@ -5,5 +5,5 @@ using System.Collections.Generic;
 namespace FunctionAppDoc2Data.Respositories;
 public interface IReceiptHistoryRepository
 {
-    IEnumerable<ReceiptHistoryDTO> GetReceiptHistory(Guid userId);
+    IEnumerable<ReceiptHistoryDTO> GetReceiptHistory(Guid userId, DateTime fromDate, DateTime toDate);
 }

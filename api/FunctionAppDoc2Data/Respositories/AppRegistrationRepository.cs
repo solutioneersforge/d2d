@@ -107,6 +107,7 @@ public class AppRegistrationRepository : IAppRegistrationRepository
                     await _docToDataDBContext.SaveChangesAsync();
 
                     userRegisterModel.CompanyId = company.CompanyId;
+                    
                 }
 
                 if (userId != Guid.Empty)
@@ -115,6 +116,10 @@ public class AppRegistrationRepository : IAppRegistrationRepository
                             .Include(m => m.Company)?
                             .ThenInclude(m => m.Subscription)
                             .FirstOrDefaultAsync(m => m.UserId == userId);
+
+                    var userDetails = await _docToDataDBContext.Users.FirstOrDefaultAsync(m => m.UserId == userId);
+                    userRegisterModel.CurrencyId =  userDetails?.CurrencyId ?? 1;
+                    userRegisterModel.IsTrackInventory = userDetails.IsInventoryTrack.GetValueOrDefault();
 
                     if (companyMember != null)
                     {

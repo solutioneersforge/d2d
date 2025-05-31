@@ -5,5 +5,6 @@ public class ExpenseTypeDTO
     public string CategoryName { get; set; }
     public int? SubcategoryId { get; set; }
     public string SubCategoryName { get; set; }
+    public bool IsActive { get; set; }
 
 }

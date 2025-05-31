@@ -8,6 +8,7 @@ namespace FunctionAppDoc2Data.DataContext
         public Currency()
         {
             Receipts = new HashSet<Receipt>();
+            Users = new HashSet<User>();
         }
 
         public int CurrenctId { get; set; }
@@ -17,5 +18,6 @@ namespace FunctionAppDoc2Data.DataContext
         public bool? IsActive { get; set; }
 
         public virtual ICollection<Receipt> Receipts { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

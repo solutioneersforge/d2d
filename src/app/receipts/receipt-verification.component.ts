@@ -21,6 +21,7 @@ import { AuthenticationService } from '../services/authentication.service';
 export class ReceiptVerificationComponent implements OnInit {
   imageBase64: string = '';
   isImageLoad: boolean = true;
+  isReport : boolean = true;
   isLoading = true;
   currentIndex: number = 0;
   receiptId: string = '';
@@ -28,14 +29,29 @@ export class ReceiptVerificationComponent implements OnInit {
   modalInstance: Modal | null = null;
   unitOfMeasuresDTO: UnitOfMeasuresDTO[] = [];
   isStock?: boolean | null = false;
+   authService = inject(AuthenticationService); 
+
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private authenticationService: AuthenticationService){
   }
 
   ngOnInit() {
+     this.authService.getIsInventoryStockDisplay.subscribe((data) => {
+      this.isStock = data
+    })
+
     this.activatedRoute.params.subscribe(data => {
       this.receiptId = data["id"];
       this.getFunctionAppReceiptVerification(data["id"]);
     });
+
+     this.activatedRoute.queryParams.subscribe(queryParams => {
+    const status = queryParams["status"]; // 'edit'
+    console.log('Status from query string:', status);
+    
+    if (status === 'approve') {
+      this.isReport = false;
+    }
+  });
   }
 
   getFunctionAppUnitOfMeasureDTO() {
@@ -183,7 +199,9 @@ export class ReceiptVerificationComponent implements OnInit {
         .postFunctionAppReceiptApproval(this.receiptApprovalDTO)
         .subscribe(
           {
-            next: data => {this.router.navigate(['/dashboard']);},
+            next: data => { if(this.isReport) {
+              this.router.navigate(['/reports']);
+            } else this.router.navigate(['/history']);},
             error: (error) => console.log(error),
             complete: () => console.log('Data Successfully Completed')
          });
@@ -220,7 +238,9 @@ export class ReceiptVerificationComponent implements OnInit {
   
 
   backToDashBoard(){
-    this.router.navigate(['/dashboard']);
+    { if(this.isReport) {
+              this.router.navigate(['/reports']);
+            } else this.router.navigate(['/history']);}
   }
 
   nextItem() {

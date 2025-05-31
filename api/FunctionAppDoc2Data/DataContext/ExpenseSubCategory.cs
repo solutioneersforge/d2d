@@ -8,6 +8,7 @@ namespace FunctionAppDoc2Data.DataContext
         public ExpenseSubCategory()
         {
             ReceiptItems = new HashSet<ReceiptItem>();
+            Receipts = new HashSet<Receipt>();
         }
 
         public int SubCategoryId { get; set; }
@@ -17,5 +18,6 @@ namespace FunctionAppDoc2Data.DataContext
 
         public virtual ExpenseCategory Category { get; set; }
         public virtual ICollection<ReceiptItem> ReceiptItems { get; set; }
+        public virtual ICollection<Receipt> Receipts { get; set; }
     }
 }

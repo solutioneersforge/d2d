@@ -21,6 +21,7 @@ import { PaymentTypeDto } from '../interfaces/payment-type-dto';
 })
 export class ReceiptModificationComponent implements OnInit {
   imageBase64: string = '';
+  isReport : boolean = true;
   isImageLoad: boolean = true;
   isLoading = true;
   currentIndex: number = 0;
@@ -34,12 +35,25 @@ export class ReceiptModificationComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authenticationService.getIsInventoryStockDisplay.subscribe((data) => {
+      this.isStock = data
+    })
      this.getPaymentTypeDTO();
     this.activatedRoute.params.subscribe(data => {
       this.receiptId = data["id"];
       this.getFunctionAppReceiptVerification(data["id"]);
+      
     });
 
+
+    this.activatedRoute.queryParams.subscribe(queryParams => {
+    const status = queryParams["status"]; // 'edit'
+    console.log('Status from query string:', status);
+    
+    if (status === 'edit') {
+      this.isReport = false;
+    }
+  });
     
   }
 
@@ -195,7 +209,9 @@ export class ReceiptModificationComponent implements OnInit {
         .postFunctionAppReceiptModification(this.receiptApprovalDTO)
         .subscribe(
           {
-            next: data => {this.router.navigate(['/dashboard']);},
+            next: data => { if(this.isReport) {
+              this.router.navigate(['/reports']);
+            } else this.router.navigate(['/history']);},
             error: (error) => console.log(error),
             complete: () => this.isSaveButtonEnable = false
          });
@@ -232,7 +248,9 @@ export class ReceiptModificationComponent implements OnInit {
   
 
   backToDashBoard(){
-    this.router.navigate(['/dashboard']);
+    if(this.isReport) {
+              this.router.navigate(['/reports']);
+            } else this.router.navigate(['/history']);
   }
 
   nextItem() {

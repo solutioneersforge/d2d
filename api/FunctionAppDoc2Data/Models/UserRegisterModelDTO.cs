@@ -13,6 +13,8 @@ public class UserRegisterModelDTO
     public string TelephoneNumber { get; set; }
     public string Address { get; set; }
     public string CompanyEmail { get; set; }
+    public bool IsTrackInventory { get; set; }
+    public int CurrencyId { get; set; }
 }
 
 

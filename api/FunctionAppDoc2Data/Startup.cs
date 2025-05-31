@@ -53,6 +53,8 @@ public class Startup : FunctionsStartup
         builder.Services.AddScoped<IForgetPasswordLinkRepository, ForgetPasswordLinkRepository>();
         builder.Services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
         builder.Services.AddScoped<IMerchantDetailsRepository, MerchantDetailsRepository>();
+        builder.Services.AddScoped<ICurrencyTypeRepository, CurrencyTypeRepository>();
+        builder.Services.AddScoped<IRejectReceiptRepository, RejectReceiptRepository>();
         
         builder.Services.AddDbContext<DocToDataDBContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("SqlConnectionString")), ServiceLifetime.Scoped);

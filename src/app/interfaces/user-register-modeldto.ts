@@ -9,4 +9,6 @@ export interface UserRegisterModeldto {
     telephoneNumber: string | null;
     address: string | null;
     companyEmail: string | null;
+    currencyId: number | null;
+    isTrackInventory: boolean | false;
 }

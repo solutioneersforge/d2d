@@ -7,6 +7,7 @@ import { ReceiptMasterDTO } from '../interfaces/receipt-master-dto';
 import { ReceiptApprovalDTO } from '../interfaces/receipt-approval-dto';
 import { ExpenseTypeDTO } from '../interfaces/expense-type-dto';
 import { AuthenticationService } from './authentication.service';
+import { RejectReceiptDTO } from './../interfaces/reject-receipt-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -49,8 +50,8 @@ export class ReceiptDetailsService {
     return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppReceiptModification`, receiptApprovalDTO);
   }
 
-  getFunctionAppReceiptHistory(): Observable<any> {
-    return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppReceiptHistory`);
+  getFunctionAppReceiptHistory(fromDate: Date, toDate: Date): Observable<any> {
+    return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppReceiptHistory?fromDate=${fromDate}&toDate=${toDate}`);
   }
 
   postFunctionAppExpenseType(expenseTypeDTO: ExpenseTypeDTO) : Observable<any>{
@@ -79,5 +80,9 @@ export class ReceiptDetailsService {
 
   getMerchantDetailsDTO() : Observable<any>{
     return this.httpClient.get<any>(`${this.baseAddress}api/FunctionAppMerchantDetails`);
+  }
+
+  postFunctionAppRejectReceipt(rejectReceiptDTO: RejectReceiptDTO) : Observable<any>{
+    return this.httpClient.post<any>(`${this.baseAddress}api/FunctionAppRejectReceipt`, rejectReceiptDTO);
   }
 }

@@ -25,6 +25,11 @@ export class JwtService {
     return decodedToken ? decodedToken.given_name || '' : '';
   }
 
+ getIsInventoryTrack(token: string): boolean {
+    const decodedToken = this.getDecodedToken(token);
+    return decodedToken?.is_inventory_track === 'True';
+}
+
   getEmail(token: string): string {
     const decodedToken = this.getDecodedToken(token);
     return decodedToken ? decodedToken.unique_name || '' : '';

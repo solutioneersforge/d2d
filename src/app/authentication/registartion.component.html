@@ -20,6 +20,51 @@
           <label for="email" class="form-label">Email address</label>
           <input type="email" class="form-control" id="email" placeholder="Enter email" [(ngModel)]="email" name="email" required />
         </div>
+
+
+     <div class="row">
+  <!-- Track Inventory Checkbox -->
+  <div class="col-12 col-md-6 mb-3 d-flex align-items-center">
+    <div class="form-check mb-0">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="isInventoryTrack"
+        [(ngModel)]="isInventoryTrack"
+        name="isInventoryTrack"
+      />
+      <label class="form-check-label ms-2" for="isInventoryTrack">
+        Track Inventory?
+      </label>
+    </div>
+  </div>
+
+  <!-- Currency Type Dropdown -->
+ <!-- Currency Type Dropdown -->
+<div class="col-12 col-md-6 mb-3">
+  <label for="currencyType" class="form-label">Currency Type</label>
+  <select
+    class="form-select"
+    id="currencyType"
+    required
+    [(ngModel)]="currencyType"
+    name="currencyType"
+    #currencyTypeModel="ngModel"
+    [class.is-invalid]="currencyTypeModel.invalid && currencyTypeModel.touched"
+    aria-label="Default Currency Type"
+  >
+    <option value="" disabled selected>Select a currency</option>
+    @for (item of currencyTypeDTO; track $index) {
+      <option [value]="item.currencyId">{{ item.name }}</option>
+    }
+  </select>
+  <div *ngIf="currencyTypeModel.invalid && currencyTypeModel.touched" class="invalid-feedback">
+    Currency Type is required.
+  </div>
+</div>
+
+
+</div>
   
         <!-- Password -->
         <div class="mb-3">
